@@ -172,7 +172,7 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 
 <section id="characters" class="character-ranking">
     <h2>BEST CHARACTERS</h2>
-    <p style="opacity:.7">Ranking pribadi. Urutan ditentukan sendiri, bukan berdasarkan rating anime.</p>
+    <p style="opacity:.7">Ranking pribadi. Urutan ditentukan sendiri. Rating di kartu hanya skor karakter versi gw.</p>
 
     <h3 class="character-section-title">BEST MC</h3>
     <div id="best-mc-grid" class="character-grid"></div>
@@ -218,7 +218,7 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 <div class="modal" id="modal">
 <div class="modal-box">
 <button class="close" onclick="closeModal()">×</button>
-<img id="modalImg" src="" alt="">
+<img loading="lazy" decoding="async" id="modalImg" src="" alt="">
 <h2 id="modalTitle"></h2>
 <p id="modalRating"></p>
 <p id="modalGenre"></p>
@@ -400,7 +400,7 @@ function countWatched(name){return rewatchData[name]||1}
 function makeCard(anime){
   const card=document.createElement("div");
   card.className="anime";
-  card.innerHTML=`<img src="${anime[2]}" loading="lazy" decoding="async" alt="${anime[0]}"><h3>${anime[0]}</h3><p class="rating">${anime[1].toFixed(1)}/10</p><p class="watched">Watched ${countWatched(anime[0])}×</p>`;
+  card.innerHTML=`<img src="${anime[2]}" loading="lazy" decoding="async" width="500" height="255" alt="${anime[0]}"><h3>${anime[0]}</h3><p class="rating">${anime[1].toFixed(1)}/10</p><p class="watched">Watched ${countWatched(anime[0])}×</p>`;
   card.addEventListener("click",()=>openModal(anime));
   return card;
 }
@@ -484,7 +484,7 @@ function renderTop10(){
 function renderMonthAnime(){
   const name="The Fragrant Flower Blooms with Dignity";
   const a=animeData.find(x=>x[0]===name)||animeData[0];
-  document.getElementById("monthAnime").innerHTML=`<img src="${a[2]}" alt="${a[0]}"><div><h3>${a[0]}</h3><p>Rating: <b style="color:#ffd166">${a[1].toFixed(1)}/10</b></p><p>Anime pilihan bulan ini.</p></div>`;
+  document.getElementById("monthAnime").innerHTML=`<img src="${a[2]}" loading="lazy" decoding="async" width="90" height="125" alt="${a[0]}"><div><h3>${a[0]}</h3><p>Rating: <b style="color:#ffd166">${a[1].toFixed(1)}/10</b></p><p>Anime pilihan bulan ini.</p></div>`;
 }
 
 function renderDistribution(){
@@ -544,13 +544,13 @@ const bestMC = [
     ["Sakuta Azusagawa", "Bunny Girl Senpai", "bunny.jpg", 10.0, "MC dengan perkembangan karakter kuat, cara berpikir realistis, dan berani menghadapi masalah."],
     ["Hachiman Hikigaya", "Oregairu", "oregairu.jpg", 9.9, "Cara berpikirnya unik dan perkembangan karakternya jadi salah satu bagian terbaik dari ceritanya."],
     ["Oreki Houtarou", "Hyouka", "hyouka.jpg", 9.8, "Santai, observatif, dan perlahan berkembang karena orang-orang di sekitarnya."],
-    ["Gojo Wakana", "My Dress-Up Darling", "dressup.jpg", 9.5, "Pendiam tapi punya passion besar dan perkembangan kepercayaan dirinya terasa."],
+    ["Gojo Wakana", "My Dress-Up Darling", "dressupdarling.jfif", 9.5, "Pendiam tapi punya passion besar dan perkembangan kepercayaan dirinya terasa."],
     ["Futaro Uesugi", "Gotoubun no Hanayome", "gotoubun.jpg", 9.4, "MC yang serius soal tanggung jawab dan berkembang lewat hubungannya dengan lima saudari."]
 ];
 
 const bestHeroine = [
     ["Mai Sakurajima", "Bunny Girl Senpai", "bunny.jpg", 10.0, "Karakter kuat, elegan, dan chemistry dengan MC-nya sangat cocok."],
-    ["Yuzuki Shiraishi", "I Made Friends with the Second Prettiest Girl in My Class", "imfriends.jpg", 9.9, "Kepribadiannya menarik dan perkembangan hubungan dengan MC terasa natural."],
+    ["Asanagi Umi", "I Made Friends with the Second Prettiest Girl in My Class", "imfriends.jpg", 9.9, "Karakter yang tenang tapi punya sisi personal yang menarik, dan chemistry dengan MC terasa natural."],
     ["Hori Kyouko", "Horimiya", "horimiya.jpg", 9.8, "Bukan cuma karakter romance, tapi punya sisi personal yang bikin karakternya terasa hidup."],
     ["Chitanda Eru", "Hyouka", "hyouka.jpg", 9.7, "Energi, rasa penasaran, dan interaksinya dengan Oreki jadi salah satu daya tarik utama."],
     ["Yotsuba Nakano", "Gotoubun no Hanayome", "gotoubun.jpg", 9.6, "Punya sisi ceria sekaligus emosional yang bikin perannya makin menarik."]
@@ -562,7 +562,7 @@ function renderCharacterRanking(list, targetId) {
     target.innerHTML = list.map((c, i) => `
         <div class="character-card">
             <div class="character-rank">#${i + 1}</div>
-            <img src="${c[2]}" alt="${c[0]}" onerror="this.src='${c[2].replace(/\.[^.]+$/, '.jpg')}'">
+            <img src="${c[2]}" loading="lazy" decoding="async" width="500" height="260" alt="${c[0]}">
             <h3>${c[0]}</h3>
             <div class="character-anime">${c[1]}</div>
             <div class="character-score">★ ${c[3].toFixed(1)} / 10</div>
