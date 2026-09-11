@@ -277,13 +277,13 @@ let rewatchData={"Bunny Girl Senpai":3};
 try{
   const saved=localStorage.getItem("ristzRewatch");
   if(saved) rewatchData=Object.assign(rewatchData,JSON.parse(saved));
-}{}catch(e){}
+}catch(e){}
 
 let watchHistory=initialHistory.slice();
 try{
   const savedHistory=localStorage.getItem("ristzHistory");
   if(savedHistory) watchHistory=JSON.parse(savedHistory);
-}{}catch(e){}
+}catch(e){}
 
 let selectedAnime=null;
 
