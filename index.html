@@ -1,4 +1,144 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Ristz Anime</title><style>*{box-sizing:border-box;scroll-behavior:smooth}body{background:#120d1c;color:white;font-family:Arial,sans-serif;margin:0}header{position:sticky;top:0;z-index:10;background:rgba(29,20,43,.96);padding:18px 20px;text-align:center;border-bottom:2px solid #8b5cf6;backdrop-filter:blur(8px)}header h1{color:#b98cff;margin:0 0 12px;font-size:30px;letter-spacing:2px}nav{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}nav a{color:white;text-decoration:none;margin:0 8px;padding:7px 10px;border-radius:8px;transition:.2s}nav a:hover{color:#b98cff;background:#291d3a}section{scroll-margin-top:95px}.hero{min-height:420px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 20px;background:radial-gradient(circle at top,#33204d 0,#120d1c 55%)}.hero h2{font-size:clamp(34px,7vw,58px);color:#b98cff;margin:0 0 15px}.hero p{color:#cfc7d9;font-size:17px;margin:0}.hero .tag{margin-top:22px;color:#9f8ab7;font-size:14px}.container{max-width:1250px;margin:auto;padding:45px 25px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}.section-title h2{color:#b98cff;margin:0;font-size:28px}.section-title span{color:#8f829c;font-size:13px}.anime-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px}.anime{background:#21172e;padding:12px;border-radius:12px;text-align:center;border:1px solid #39264d;transition:.25s;overflow:hidden}.anime:hover{transform:translateY(-7px);border-color:#b98cff;box-shadow:0 8px 25px rgba(139,92,246,.15)}.anime img{width:100%;height:255px;object-fit:cover;border-radius:8px;display:block;background:#17111f}.anime h3{font-size:15px;line-height:1.35;margin:12px 3px 7px;min-height:40px}.rating{color:#ffd166;font-weight:bold;margin:0 0 3px}.watched{color:#8f829c;font-size:12px;margin:0}.favorite-list{grid-template-columns:repeat(5,minmax(0,1fr))}.favorite-list .anime{border-color:#52377a}hr{border:0;border-top:1px solid #39264d;margin:0}.about-box{background:#1d142b;border:1px solid #39264d;border-radius:14px;padding:25px;color:#d4cddc;line-height:1.7}.about-box strong{color:#b98cff}footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#888;font-size:13px}@media(max-width:900px){.favorite-list{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:600px){header{padding:14px 10px}header h1{font-size:24px}nav{gap:2px}nav a{margin:0 2px;padding:7px 8px;font-size:13px}.hero{min-height:330px;padding:50px 18px}.hero p{font-size:15px}.container{padding:35px 12px}.section-title{align-items:flex-end}.section-title h2{font-size:23px}.section-title span{font-size:11px}.anime-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.favorite-list{grid-template-columns:repeat(2,minmax(0,1fr))}.anime{padding:8px;border-radius:10px}.anime img{height:235px}.anime h3{font-size:13px;min-height:36px}.about-box{padding:18px;font-size:14px}}</style></head><body><header><h1>RISTZ ANIME</h1><nav><a href="#home">HOME</a><a href="#favorite">FAVORITE</a><a href="#halloffame">HALL OF FAME</a><a href="#history">HISTORY</a><a href="#completed">COMPLETED</a><a href="#about">ABOUT</a></nav></header><section class="hero" id="home"><h2>MY ANIME JOURNEY</h2><p>Welcome to my personal anime collection.</p><p class="tag">98 anime watched • personal ratings • Ristz Anime</p></section><section class="container" id="favorite"><div class="section-title"><h2>MY FAVORITE ANIME</h2><span>TOP 5</span></div><div class="anime-list favorite-list"><div class="anime"><img src="bunny.jpg" loading="lazy" decoding="async"><h3>Bunny Girl Senpai</h3><p class="rating">10/10</p></div><div class="anime"><img src="imfriends.jpg" loading="lazy" decoding="async"><h3>I Made Friends with the Second...</h3><p class="rating">9.9/10</p></div><div class="anime"><img src="horimiya.jpg" loading="lazy" decoding="async"><h3>Horimiya</h3><p class="rating">9.9/10</p></div><div class="anime"><img src="oregairu.jpg" loading="lazy" decoding="async"><h3>Oregairu</h3><p class="rating">9.9/10</p></div><div class="anime"><img src="hyouka.jpg" loading="lazy" decoding="async"><h3>Hyouka</h3><p class="rating">9.8/10</p></div></div></section><hr><section class="container" id="halloffame"><div class="section-title"><h2>10/10 HALL OF FAME</h2><span>PEAK</span></div><div class="anime-list" id="hallList"></div></section><hr><section class="container" id="history"><div class="section-title"><h2>WATCH HISTORY</h2><span>RECENTLY FINISHED</span></div><div class="anime-list" id="historyList"></div></section><hr><section class="container" id="completed"><div class="section-title"><h2>COMPLETED ANIME</h2><span>HIGHEST RATED FIRST</span></div><p style="color:#9f96aa">Anime that I have watched.</p><div class="anime-list" id="animeList"></div></section><hr><section class="container" id="about"><div class="section-title"><h2>ABOUT ME</h2></div><div class="about-box"><p>This is my personal anime website. Here I keep track of anime that I have watched, my ratings, and my favorite anime.</p><p><strong>Ristz Anime</strong> is basically my little archive of the anime I've finished so far.</p></div></section><footer><p>© 2026 Ristz Anime</p></footer><script>const animeData = [
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ristz Anime</title>
+<style>
+*{box-sizing:border-box;scroll-behavior:smooth}
+body{background:#120d1c;color:white;font-family:Arial,sans-serif;margin:0}
+header{position:sticky;top:0;z-index:20;background:rgba(29,20,43,.96);padding:16px 20px;text-align:center;border-bottom:2px solid #8b5cf6;backdrop-filter:blur(8px)}
+header h1{color:#b98cff;margin:0 0 10px;font-size:30px;letter-spacing:2px}
+nav{display:flex;justify-content:center;flex-wrap:wrap;gap:6px}
+nav a{color:white;text-decoration:none;padding:7px 9px;border-radius:8px;transition:.2s;font-size:13px}
+nav a:hover{color:#b98cff;background:#291d3a}
+section{scroll-margin-top:100px}
+.hero{min-height:400px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 20px;background:radial-gradient(circle at top,#33204d 0,#120d1c 55%)}
+.hero h2{font-size:clamp(34px,7vw,58px);color:#b98cff;margin:0 0 15px}
+.hero p{color:#cfc7d9;font-size:17px;margin:0}
+.hero .tag{margin-top:20px;color:#9f8ab7;font-size:14px}
+.container{max-width:1250px;margin:auto;padding:42px 25px}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:20px}
+.section-title h2{color:#b98cff;margin:0;font-size:27px}
+.section-title span{color:#8f829c;font-size:13px}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 24px}
+.tools input,.tools select,.tools button{background:#21172e;color:white;border:1px solid #4a3560;border-radius:9px;padding:10px 12px;font-size:14px;outline:none}
+.tools input{flex:1;min-width:220px}
+.tools input:focus,.tools select:focus{border-color:#b98cff}
+.tools button{cursor:pointer;transition:.2s}
+.tools button:hover{border-color:#b98cff;background:#2a1d3b}
+.anime-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px}
+.anime{background:#21172e;padding:12px;border-radius:12px;text-align:center;border:1px solid #39264d;transition:.25s;overflow:hidden;cursor:pointer}
+.anime:hover{transform:translateY(-7px);border-color:#b98cff;box-shadow:0 8px 25px rgba(139,92,246,.15)}
+.anime img{width:100%;height:255px;object-fit:cover;border-radius:8px;display:block;background:#17111f}
+.anime h3{font-size:15px;line-height:1.35;margin:12px 3px 7px;min-height:40px}
+.rating{color:#ffd166;font-weight:bold;margin:0 0 3px}
+.watched{color:#8f829c;font-size:12px;margin:0}
+.favorite-list{grid-template-columns:repeat(5,minmax(0,1fr))}
+.favorite-list .anime{border-color:#52377a}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 0 30px}
+.stat{background:#1d142b;border:1px solid #39264d;border-radius:12px;padding:18px;text-align:center}
+.stat b{display:block;font-size:25px;color:#b98cff;margin-bottom:5px}
+.stat span{font-size:12px;color:#9f96aa}
+.result-count{color:#9f96aa;font-size:13px;margin:-10px 0 18px}
+hr{border:0;border-top:1px solid #39264d;margin:0}
+.about-box{background:#1d142b;border:1px solid #39264d;border-radius:14px;padding:25px;color:#d4cddc;line-height:1.7}
+.about-box strong{color:#b98cff}
+footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#888;font-size:13px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+.modal.show{display:flex}
+.modal-box{background:#21172e;border:1px solid #6d4b93;border-radius:16px;max-width:430px;width:100%;padding:20px;position:relative;text-align:center;box-shadow:0 15px 50px rgba(0,0,0,.5)}
+.modal-box img{width:150px;height:210px;object-fit:cover;border-radius:10px}
+.modal-box h2{color:#b98cff;font-size:22px;line-height:1.3}
+.modal-box p{color:#cfc7d9}
+.modal-box button{background:#8b5cf6;color:white;border:0;border-radius:9px;padding:10px 14px;cursor:pointer;margin:5px}
+.close{position:absolute;right:12px;top:8px;background:none!important;font-size:22px;padding:4px!important}
+@media(max-width:900px){.favorite-list{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){header{padding:13px 8px}header h1{font-size:24px}nav a{font-size:11px;padding:6px 6px}.hero{min-height:320px;padding:45px 18px}.hero p{font-size:15px}.container{padding:32px 12px}.section-title h2{font-size:22px}.anime-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.favorite-list{grid-template-columns:repeat(2,minmax(0,1fr))}.anime{padding:8px;border-radius:10px}.anime img{height:235px}.anime h3{font-size:13px;min-height:36px}.stats{grid-template-columns:repeat(2,1fr);gap:9px}.stat{padding:14px 8px}.stat b{font-size:21px}.tools input{min-width:100%}}
+</style>
+</head>
+<body>
+<header>
+<h1>RISTZ ANIME</h1>
+<nav>
+<a href="#home">HOME</a><a href="#favorite">FAVORITE</a><a href="#halloffame">HALL OF FAME</a><a href="#history">HISTORY</a><a href="#completed">COMPLETED</a><a href="#stats">STATS</a><a href="#about">ABOUT</a>
+</nav>
+</header>
+
+<section class="hero" id="home">
+<h2>MY ANIME JOURNEY</h2>
+<p>Welcome to my personal anime collection.</p>
+<p class="tag"><span id="heroCount">98</span> anime watched • personal ratings • Ristz Anime</p>
+</section>
+
+<section class="container" id="favorite">
+<div class="section-title"><h2>MY FAVORITE ANIME</h2><span>TOP 5</span></div>
+<div class="anime-list favorite-list" id="favoriteList"></div>
+</section>
+<hr>
+
+<section class="container" id="halloffame">
+<div class="section-title"><h2>10/10 HALL OF FAME</h2><span>PEAK</span></div>
+<div class="anime-list" id="hallList"></div>
+</section>
+<hr>
+
+<section class="container" id="history">
+<div class="section-title"><h2>WATCH HISTORY</h2><span>RECENTLY FINISHED</span></div>
+<div class="anime-list" id="historyList"></div>
+</section>
+<hr>
+
+<section class="container" id="completed">
+<div class="section-title"><h2>COMPLETED ANIME</h2><span>FILTER & SEARCH</span></div>
+<div class="tools">
+<input id="searchInput" type="search" placeholder="Search anime...">
+<select id="ratingFilter"><option value="0">All Ratings</option><option value="9.5">9.5+</option><option value="9">9.0+</option><option value="8">8.0+</option></select>
+<select id="genreFilter"><option value="All">All Genres</option><option>Action</option><option>Romance</option><option>Comedy</option><option>Fantasy</option><option>Sports</option><option>Mystery</option><option>Drama</option><option>Sci-Fi</option><option>Slice of Life</option><option>Horror</option><option>Other</option></select>
+<button id="randomBtn">🎲 Random Anime</button>
+<button id="clearBtn">Reset</button>
+</div>
+<p class="result-count" id="resultCount"></p>
+<div class="anime-list" id="animeList"></div>
+</section>
+<hr>
+
+<section class="container" id="stats">
+<div class="section-title"><h2>ANIME STATISTICS</h2><span>MY NUMBERS</span></div>
+<div class="stats">
+<div class="stat"><b id="totalStat">98</b><span>Total Anime</span></div>
+<div class="stat"><b id="avgStat">0</b><span>Average Rating</span></div>
+<div class="stat"><b id="highStat">0</b><span>Highest Rating</span></div>
+<div class="stat"><b id="tenStat">0</b><span>10/10 Anime</span></div>
+</div>
+</section>
+<hr>
+
+<section class="container" id="about">
+<div class="section-title"><h2>ABOUT ME</h2></div>
+<div class="about-box">
+<p>This is my personal anime website. Here I keep track of anime that I have watched, my ratings, and my favorite anime.</p>
+<p><strong>Ristz Anime</strong> is basically my little archive of the anime I've finished so far.</p>
+</div>
+</section>
+<footer><p>© 2026 Ristz Anime</p></footer>
+
+<div class="modal" id="modal">
+<div class="modal-box">
+<button class="close" onclick="closeModal()">×</button>
+<img id="modalImg" src="" alt="">
+<h2 id="modalTitle"></h2>
+<p id="modalRating"></p>
+<p id="modalGenre"></p>
+<p id="modalWatched"></p>
+<button onclick="markWatched()">✓ Selesai ditonton lagi</button>
+<button onclick="closeModal()">Tutup</button>
+</div>
+</div>
+
+<script>
+const animeData = [
+
 
     ["Bunny Girl Senpai", 10.0, "bunny.jpg"],
     ["I Made Friends with the Second Prettiest Girl in My Class", 9.9, "imfriends.jpg"],
@@ -113,25 +253,135 @@
 
 ];
 
-const rewatchData={"Bunny Girl Senpai":3};
-const watchHistory=["The Fragrant Flower Blooms with Dignity","Bunny Girl Senpai","Gotoubun no Hanayome","Haibara-kun no Tsuyokute Seishun New Game","Oregairu"];
+const favorites=["Bunny Girl Senpai","I Made Friends with the Second Prettiest Girl in My Class","Horimiya","Oregairu","Hyouka"];
+const initialHistory=["The Fragrant Flower Blooms with Dignity","Bunny Girl Senpai","Gotoubun no Hanayome","Haibara-kun no Tsuyokute Seishun New Game","Oregairu"];
 
-animeData.sort(function(a,b){return b[1]-a[1]});
+const genreMap={
+"Bunny Girl Senpai":"Romance","I Made Friends with the Second Prettiest Girl in My Class":"Romance","Horimiya":"Romance","Oregairu":"Romance","Hyouka":"Mystery",
+"Bleach":"Action","Haikyuu!!":"Sports","JoJo's Bizarre Adventure: Stardust Crusaders":"Action","Attack on Titan":"Action","Tokyo Ghoul":"Horror","Love Unseen Beneath the Clear Night Sky":"Romance","Gotoubun no Hanayome":"Romance","Kamisama ni Natta Hi":"Drama",
+"My Dress-Up Darling":"Romance","Saiki K.":"Comedy","Jujutsu Kaisen":"Action","The Misfit of Demon King Academy":"Fantasy","Kaze Tachinu":"Drama",
+"Aishiteru Game wo Owarasetai":"Romance","JoJo's Bizarre Adventure: Diamond Is Unbreakable":"Action","Solo Leveling":"Action","Kimetsu no Yaiba":"Action","Grand Blue":"Comedy","No Game No Life":"Fantasy","Classroom of the Elite":"Mystery","Death Note":"Mystery","Hellsing":"Horror","Chi. Chikyuu no Undou ni Tsuite":"Drama",
+"Owari no Seraph":"Action","Himouto! Umaru-chan":"Comedy","Naruto":"Action",
+"The Fragrant Flower Blooms with Dignity":"Romance","Tensura":"Fantasy","Sentenced to Be a Hero":"Fantasy","Tondemo Skill de Isekai":"Fantasy","Mob Psycho 100":"Action","Bocchi the Rock!":"Slice of Life","The God of High School":"Action","Suzume":"Fantasy",
+"Pseudo Harem":"Romance","Tune Into the Midnight Heart":"Romance","Keiken Zumi na Kimi to, Keiken Zero na Ore ga, Otsukiai suru Hanashi":"Romance","The Angel Next Door Spoils Me Rotten":"Romance","Watashi ga Koibito ni Nareru Wake Nai Jan":"Romance","Sokushi Cheat":"Fantasy","Tsue to Surugi":"Fantasy","Kaya-chan":"Horror","Record of Ragnarok":"Action","Tanaka-kun":"Slice of Life","Sakamoto desu ga?":"Comedy","Mashle":"Action","Chainsaw Man":"Action","Re:Zero":"Fantasy",
+"Bofuri":"Fantasy","JoJo's Bizarre Adventure: Part 1":"Action","Kusunoki's Garden":"Romance","Inuyashiki":"Sci-Fi","Kaiju No. 8":"Action","Wind Breaker":"Action","Sakamoto Days":"Action","Dandadan":"Action","The Eminence in Shadow":"Fantasy","Kaguya-sama: Love is War":"Romance","Shinmai Ossan":"Action","Tsukimichi":"Fantasy","Gachiakuta":"Action","One Punch Man":"Action","Youjo Senki":"Action","Monster":"Mystery",
+"Arakawa Under the Bridge":"Comedy","Youkai Gakkou no Sensei":"Comedy","Mushoku Tensei":"Fantasy","Sanda":"Action","Gabriel DropOut":"Comedy","Cyberpunk: Edgerunners":"Sci-Fi","katainaka no ossan":"Action",
+"Madoka Magica":"Fantasy","Chitose Is in the Ramune Bottle":"Romance","Haibara-kun no Tsuyokute Seishun New Game":"Romance","The Dangers in My Heart":"Romance","Mugen Gacha":"Fantasy","Zom 100":"Comedy","Uma Musume":"Sports","Blue Archive":"Action","Amagi Brilliant Park":"Fantasy","Mato Seihei no Slave":"Action","Overlord":"Fantasy",
+"The Shiunji Family Children":"Romance","SPY x FAMILY":"Comedy","Honey Lemon Soda":"Romance","My Stepmom's Daughter Is My Ex":"Romance","The 100 Girlfriends":"Romance","Blue Lock":"Sports","Boruto":"Action","Citrus":"Romance","Isekai de Cheat Skill":"Fantasy"
+};
+
+function genreOf(anime){return genreMap[anime[0]]||"Other"}
+animeData.sort((a,b)=>b[1]-a[1]);
+
+let rewatchData={"Bunny Girl Senpai":3};
+try{
+  const saved=localStorage.getItem("ristzRewatch");
+  if(saved) rewatchData=Object.assign(rewatchData,JSON.parse(saved));
+}{}catch(e){}
+
+let watchHistory=initialHistory.slice();
+try{
+  const savedHistory=localStorage.getItem("ristzHistory");
+  if(savedHistory) watchHistory=JSON.parse(savedHistory);
+}{}catch(e){}
+
+let selectedAnime=null;
+
+function countWatched(name){return rewatchData[name]||1}
 
 function makeCard(anime){
- const card=document.createElement("div");
- card.className="anime";
- const count=rewatchData[anime[0]]||1;
- card.innerHTML=`<img src="${anime[2]}" loading="lazy" decoding="async"><h3>${anime[0]}</h3><p class="rating">${anime[1].toFixed(1)}/10</p><p class="watched">Watched ${count}×</p>`;
- return card;
+  const card=document.createElement("div");
+  card.className="anime";
+  card.innerHTML=`<img src="${anime[2]}" loading="lazy" decoding="async" alt="${anime[0]}"><h3>${anime[0]}</h3><p class="rating">${anime[1].toFixed(1)}/10</p><p class="watched">Watched ${countWatched(anime[0])}×</p>`;
+  card.addEventListener("click",()=>openModal(anime));
+  return card;
 }
 
-const animeList=document.getElementById("animeList");
-animeData.forEach(function(anime){animeList.appendChild(makeCard(anime));});
+function renderFavorites(){
+  const list=document.getElementById("favoriteList"); list.innerHTML="";
+  favorites.forEach(name=>{const a=animeData.find(x=>x[0]===name);if(a)list.appendChild(makeCard(a))});
+}
 
-const hallList=document.getElementById("hallList");
-animeData.filter(function(anime){return anime[1]===10}).forEach(function(anime){hallList.appendChild(makeCard(anime));});
+function renderHall(){
+  const list=document.getElementById("hallList"); list.innerHTML="";
+  animeData.filter(a=>a[1]===10).forEach(a=>list.appendChild(makeCard(a)));
+}
 
-const historyList=document.getElementById("historyList");
-watchHistory.forEach(function(name){const anime=animeData.find(function(a){return a[0]===name});if(anime)historyList.appendChild(makeCard(anime));});
-</script></body></html>
+function renderHistory(){
+  const list=document.getElementById("historyList"); list.innerHTML="";
+  watchHistory.forEach(name=>{const a=animeData.find(x=>x[0]===name);if(a)list.appendChild(makeCard(a))});
+}
+
+function renderCompleted(){
+  const q=document.getElementById("searchInput").value.toLowerCase().trim();
+  const minRating=parseFloat(document.getElementById("ratingFilter").value);
+  const genre=document.getElementById("genreFilter").value;
+  const filtered=animeData.filter(a=>
+    a[0].toLowerCase().includes(q) &&
+    a[1]>=minRating &&
+    (genre==="All"||genreOf(a)===genre)
+  );
+  const list=document.getElementById("animeList"); list.innerHTML="";
+  filtered.forEach(a=>list.appendChild(makeCard(a)));
+  document.getElementById("resultCount").textContent=`Showing ${filtered.length} of ${animeData.length} anime`;
+}
+
+function renderStats(){
+  const total=animeData.length;
+  const avg=animeData.reduce((s,a)=>s+a[1],0)/total;
+  const high=Math.max(...animeData.map(a=>a[1]));
+  const ten=animeData.filter(a=>a[1]===10).length;
+  document.getElementById("totalStat").textContent=total;
+  document.getElementById("avgStat").textContent=avg.toFixed(2);
+  document.getElementById("highStat").textContent=high.toFixed(1)+"/10";
+  document.getElementById("tenStat").textContent=ten;
+  document.getElementById("heroCount").textContent=total;
+}
+
+function openModal(anime){
+  selectedAnime=anime;
+  document.getElementById("modalImg").src=anime[2];
+  document.getElementById("modalTitle").textContent=anime[0];
+  document.getElementById("modalRating").textContent="Rating: "+anime[1].toFixed(1)+"/10";
+  document.getElementById("modalGenre").textContent="Genre: "+genreOf(anime);
+  document.getElementById("modalWatched").textContent="Watched: "+countWatched(anime[0])+"×";
+  document.getElementById("modal").classList.add("show");
+}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+
+function markWatched(){
+  if(!selectedAnime)return;
+  const name=selectedAnime[0];
+  rewatchData[name]=countWatched(name)+1;
+  watchHistory=watchHistory.filter(x=>x!==name);
+  watchHistory.unshift(name);
+  watchHistory=watchHistory.slice(0,8);
+  localStorage.setItem("ristzRewatch",JSON.stringify(rewatchData));
+  localStorage.setItem("ristzHistory",JSON.stringify(watchHistory));
+  renderCompleted(); renderHistory(); renderHall();
+  openModal(selectedAnime);
+}
+
+document.getElementById("searchInput").addEventListener("input",renderCompleted);
+document.getElementById("ratingFilter").addEventListener("change",renderCompleted);
+document.getElementById("genreFilter").addEventListener("change",renderCompleted);
+document.getElementById("clearBtn").addEventListener("click",()=>{
+  document.getElementById("searchInput").value="";
+  document.getElementById("ratingFilter").value="0";
+  document.getElementById("genreFilter").value="All";
+  renderCompleted();
+});
+document.getElementById("randomBtn").addEventListener("click",()=>{
+  const a=animeData[Math.floor(Math.random()*animeData.length)];
+  openModal(a);
+});
+
+renderFavorites();
+renderHall();
+renderHistory();
+renderCompleted();
+renderStats();
+</script>
+</body>
+</html>
