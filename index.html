@@ -56,6 +56,9 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 .close{position:absolute;right:12px;top:8px;background:none!important;font-size:22px;padding:4px!important}
 @media(max-width:900px){.favorite-list{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){header{padding:13px 8px}header h1{font-size:24px}nav a{font-size:11px;padding:6px 6px}.hero{min-height:320px;padding:45px 18px}.hero p{font-size:15px}.container{padding:32px 12px}.section-title h2{font-size:22px}.anime-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.favorite-list{grid-template-columns:repeat(2,minmax(0,1fr))}.anime{padding:8px;border-radius:10px}.anime img{height:235px}.anime h3{font-size:13px;min-height:36px}.stats{grid-template-columns:repeat(2,1fr);gap:9px}.stat{padding:14px 8px}.stat b{font-size:21px}.tools input{min-width:100%}}
+
+/* EXTRA FEATURES */
+.feature-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}.feature-box{background:#1d142b;border:1px solid #39264d;border-radius:14px;padding:22px}.feature-box h3{color:#b98cff;margin:0 0 15px}.top-list{display:flex;flex-direction:column;gap:9px}.rank-row{display:flex;align-items:center;gap:12px;background:#21172e;border:1px solid #39264d;border-radius:9px;padding:10px 12px;cursor:pointer}.rank-num{width:28px;color:#b98cff;font-weight:bold}.rank-name{flex:1;font-size:14px}.rank-rating{color:#ffd166;font-weight:bold;font-size:13px}.month-card{display:flex;gap:15px;align-items:center}.month-card img{width:90px;height:125px;object-fit:cover;border-radius:8px}.month-card h3{margin:0 0 7px;color:white}.month-card p{margin:4px 0;color:#a99db5;font-size:13px;line-height:1.5}.distribution{display:flex;flex-direction:column;gap:8px}.dist-row{display:grid;grid-template-columns:55px 1fr 35px;align-items:center;gap:8px;font-size:12px;color:#cfc7d9}.bar{height:9px;background:#291d3a;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;background:#8b5cf6;border-radius:20px}.mood-buttons{display:flex;flex-wrap:wrap;gap:8px}.mood-btn{background:#21172e;color:white;border:1px solid #52377a;border-radius:8px;padding:8px 11px;cursor:pointer}.mood-btn:hover{background:#291d3a;border-color:#b98cff}.review-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}.review-card{background:#21172e;border:1px solid #39264d;border-radius:10px;padding:15px;cursor:pointer}.review-card h4{margin:0 0 7px;color:#fff;font-size:14px}.review-card p{margin:0;color:#a99db5;font-size:12px;line-height:1.5}.review-card .rating{margin-bottom:5px}@media(max-width:800px){.feature-grid{grid-template-columns:1fr}.month-card img{width:75px;height:105px}}
 </style>
 </head>
 <body>
@@ -90,6 +93,19 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 </section>
 <hr>
 
+<section class="container" id="extras">
+<div class="section-title"><h2>MY ANIME EXTRAS</h2><span>PERSONAL DATA</span></div>
+<div class="feature-grid">
+<div class="feature-box"><h3>🏆 TOP 10 RANKING</h3><div class="top-list" id="top10List"></div></div>
+<div class="feature-box"><h3>📅 ANIME OF THE MONTH</h3><div class="month-card" id="monthAnime"></div></div>
+<div class="feature-box"><h3>📊 RATING DISTRIBUTION</h3><div class="distribution" id="distribution"></div></div>
+<div class="feature-box"><h3>🎭 WATCH BY MOOD</h3><div class="mood-buttons">
+<button class="mood-btn" data-mood="Romance">💜 Romance</button><button class="mood-btn" data-mood="Action">⚔️ Action</button><button class="mood-btn" data-mood="Comedy">😂 Comedy</button><button class="mood-btn" data-mood="Mystery">🧠 Mystery</button><button class="mood-btn" data-mood="Fantasy">✨ Fantasy</button><button class="mood-btn" data-mood="Sports">🏐 Sports</button>
+</div><p id="moodResult" style="color:#9f96aa;font-size:12px;line-height:1.6;margin-top:15px">Pilih mood untuk melihat rekomendasi dari koleksi lu.</p></div>
+</div>
+<div class="feature-box" style="margin-top:20px"><h3>✍️ PERSONAL REVIEWS</h3><div class="review-list" id="reviewList"></div></div>
+</section>
+<hr>
 <section class="container" id="completed">
 <div class="section-title"><h2>COMPLETED ANIME</h2><span>FILTER & SEARCH</span></div>
 <div class="tools">
@@ -259,6 +275,19 @@ const descriptionMap={"Bunny Girl Senpai":"Sakuta menghadapi fenomena supernatur
 const favorites=["Bunny Girl Senpai","I Made Friends with the Second Prettiest Girl in My Class","Horimiya","Oregairu","Hyouka"];
 const initialHistory=["The Fragrant Flower Blooms with Dignity","Bunny Girl Senpai","Gotoubun no Hanayome","Haibara-kun no Tsuyokute Seishun New Game","Oregairu"];
 
+const reviewMap={
+"Bunny Girl Senpai":"Peak. Perkembangan Sakuta dan emosinya bikin anime ini beda.",
+"I Made Friends with the Second Prettiest Girl in My Class":"Romance sekolah yang ringan tapi hubungan karakternya enak diikuti.",
+"Horimiya":"Chemistry Hori dan Miyamura kuat, dan hubungan mereka terasa natural.",
+"Oregairu":"MC development-nya yang paling menonjol. Banyak dialog yang perlu direnungkan.",
+"Hyouka":"Vibe sekolah, misteri kecil, BGM, dan karakter yang bikin nyaman.",
+"Gotoubun no Hanayome":"Lima saudari dengan chemistry dan konflik yang bikin penasaran sampai akhir.",
+"The Fragrant Flower Blooms with Dignity":"Break yang pas setelah anime berat. Romance-nya terasa adem dan nyaman.",
+"Haikyuu!!":"Sports anime yang bikin pertandingan biasa terasa seperti final dunia.",
+"Attack on Titan":"World building dan misterinya makin lama makin gila.",
+"Tokyo Ghoul":"Atmosfer gelap dan perjalanan Kaneki jadi daya tarik utamanya."
+};
+
 const genreMap={
 "Bunny Girl Senpai":"Romance","I Made Friends with the Second Prettiest Girl in My Class":"Romance","Horimiya":"Romance","Oregairu":"Romance","Hyouka":"Mystery",
 "Bleach":"Action","Haikyuu!!":"Sports","JoJo's Bizarre Adventure: Stardust Crusaders":"Action","Attack on Titan":"Action","Tokyo Ghoul":"Horror","Love Unseen Beneath the Clear Night Sky":"Romance","Gotoubun no Hanayome":"Romance","Kamisama ni Natta Hi":"Drama",
@@ -367,6 +396,47 @@ function markWatched(){
   openModal(selectedAnime);
 }
 
+function renderTop10(){
+  const list=document.getElementById("top10List"); list.innerHTML="";
+  animeData.slice(0,10).forEach((a,i)=>{
+    const row=document.createElement("div"); row.className="rank-row";
+    row.innerHTML=`<span class="rank-num">#${i+1}</span><span class="rank-name">${a[0]}</span><span class="rank-rating">${a[1].toFixed(1)}</span>`;
+    row.addEventListener("click",()=>openModal(a)); list.appendChild(row);
+  });
+}
+
+function renderMonthAnime(){
+  const name="The Fragrant Flower Blooms with Dignity";
+  const a=animeData.find(x=>x[0]===name)||animeData[0];
+  document.getElementById("monthAnime").innerHTML=`<img src="${a[2]}" alt="${a[0]}"><div><h3>${a[0]}</h3><p>Rating: <b style="color:#ffd166">${a[1].toFixed(1)}/10</b></p><p>Anime pilihan bulan ini.</p></div>`;
+}
+
+function renderDistribution(){
+  const groups=[
+    ["10.0",a=>a[1]===10],
+    ["9.5–9.9",a=>a[1]>=9.5&&a[1]<10],
+    ["9.0–9.4",a=>a[1]>=9&&a[1]<9.5],
+    ["8.0–8.9",a=>a[1]>=8&&a[1]<9],
+    ["<8.0",a=>a[1]<8]
+  ];
+  const el=document.getElementById("distribution"); el.innerHTML="";
+  groups.forEach(([label,fn])=>{const n=animeData.filter(fn).length;const pct=animeData.length?(n/animeData.length*100):0;const row=document.createElement("div");row.className="dist-row";row.innerHTML=`<span>${label}</span><div class="bar"><span style="width:${pct}%"></span></div><b>${n}</b>`;el.appendChild(row);});
+}
+
+function renderReviews(){
+  const list=document.getElementById("reviewList"); list.innerHTML="";
+  animeData.slice(0,10).forEach(a=>{const card=document.createElement("div");card.className="review-card";card.innerHTML=`<h4>${a[0]}</h4><p class="rating">${a[1].toFixed(1)}/10</p><p>${reviewMap[a[0]]||"Belum ada review pribadi."}</p>`;card.addEventListener("click",()=>openModal(a));list.appendChild(card);});
+}
+
+function setupMoods(){
+  document.querySelectorAll(".mood-btn").forEach(btn=>btn.addEventListener("click",()=>{
+    const mood=btn.dataset.mood;
+    const picks=animeData.filter(a=>genreOf(a)===mood).slice(0,5);
+    const result=document.getElementById("moodResult");
+    result.innerHTML=picks.length?`<b style="color:#b98cff">${mood}</b>: `+picks.map(a=>`${a[0]} (${a[1].toFixed(1)})`).join(" • "):"Belum ada anime dengan mood ini.";
+  }));
+}
+
 document.getElementById("searchInput").addEventListener("input",renderCompleted);
 document.getElementById("ratingFilter").addEventListener("change",renderCompleted);
 document.getElementById("genreFilter").addEventListener("change",renderCompleted);
@@ -386,6 +456,11 @@ renderHall();
 renderHistory();
 renderCompleted();
 renderStats();
+renderTop10();
+renderMonthAnime();
+renderDistribution();
+renderReviews();
+setupMoods();
 </script>
 </body>
 </html>
