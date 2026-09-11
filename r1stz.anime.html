@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ristz Anime</title>
+
+    <style>
+        body {
+            background-color: #120d1c;
+            color: white;
+            font-family: Arial;
+            margin: 0;
+        }
+
+        header {
+            background-color: #1d142b;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #8b5cf6;
+        }
+
+        h1 {
+            color: #b98cff;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 15px;
+        }
+
+        nav a:hover {
+            color: #b98cff;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h2 {
+            font-size: 40px;
+            color: #b98cff;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .anime-list {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .anime {
+            background-color: #21172e;
+            width: 180px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #39264d;
+            transition: 0.3s;
+        }
+
+        .anime:hover {
+            transform: translateY(-8px);
+            border-color: #b98cff;
+        }
+
+        .anime img {
+            width: 180px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 7px;
+        }
+
+        .rating {
+            color: #ffd166;
+            font-weight: bold;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #39264d;
+            margin: 40px 0;
+        }
+
+        footer {
+            background-color: #1d142b;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>RISTZ ANIME</h1>
+
+    <nav>
+        <a href="#home">HOME</a>
+        <a href="#favorite">FAVORITE</a>
+        <a href="#completed">COMPLETED</a>
+        <a href="#about">ABOUT</a>
+    </nav>
+
+</header>
+
+
+<section class="hero" id="home">
+
+    <h2>MY ANIME JOURNEY</h2>
+
+    <p>
+        Welcome to my personal anime collection.
+    </p>
+
+</section>
+
+
+<section class="container" id="favorite">
+
+    <h2>MY FAVORITE ANIME</h2>
+
+    <div class="anime-list">
+
+        <div class="anime">
+            <img src="bunny.jpg" loading="lazy">
+            <h3>Bunny Girl Senpai</h3>
+            <p class="rating">10/10</p>
+        </div>
+
+        <div class="anime">
+            <img src="imfriends.jpg" loading="lazy">
+            <h3>I Made Friends with the Second...</h3>
+            <p class="rating">9.9/10</p>
+        </div>
+
+        <div class="anime">
+            <img src="horimiya.jpg" loading="lazy">
+            <h3>Horimiya</h3>
+            <p class="rating">9.9/10</p>
+        </div>
+
+        <div class="anime">
+            <img src="oregairu.jpg" loading="lazy">
+            <h3>Oregairu</h3>
+            <p class="rating">9.9/10</p>
+        </div>
+
+        <div class="anime">
+            <img src="hyouka.jpg" loading="lazy">
+            <h3>Hyouka</h3>
+            <p class="rating">9.8/10</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<hr>
+
+
+<section class="container" id="completed">
+
+    <h2>COMPLETED ANIME</h2>
+
+    <p>Anime that I have watched.</p>
+
+    <div class="anime-list" id="animeList"></div>
+
+</section>
+
+
+<hr>
+
+
+<section class="container" id="about">
+
+    <h2>ABOUT ME</h2>
+
+    <p>
+        This is my personal anime website.
+        Here I keep track of anime that I have watched,
+        my ratings, and my favorite anime.
+    </p>
+
+</section>
+
+
+<footer>
+
+    <p>© 2026 Ristz Anime</p>
+
+</footer>
+
+
+<script>
+
+const animeData = [
+
+    ["Bunny Girl Senpai", 10.0, "bunny.jpg"],
+    ["I Made Friends with the Second Prettiest Girl in My Class", 9.9, "imfriends.jpg"],
+    ["Horimiya", 9.9, "horimiya.jpg"],
+    ["Oregairu", 9.9, "oregairu.jpg"],
+    ["Hyouka", 9.8, "hyouka.jpg"],
+    ["Bleach", 9.7, "bleach.jfif"],
+
+    ["Haikyuu!!", 9.5, "haikyuu.jfif"],
+    ["JoJo's Bizarre Adventure: Stardust Crusaders", 9.5, "stardust.jfif"],
+    ["Attack on Titan", 9.5, "aot.jfif"],
+    ["Tokyo Ghoul", 9.5, "tokyoghoul.jfif"],
+    ["Love Unseen Beneath the Clear Night Sky", 9.5, "loveunseen.jfif"],
+    ["Gotoubun no Hanayome", 9.5, "gotoubun.jpg"],
+    ["Kamisama ni Natta Hi", 9.5, "kamisama.jfif"],
+
+    ["My Dress-Up Darling", 9.4, "dressupdarling.jfif"],
+    ["Saiki K.", 9.4, "saiki.jfif"],
+    ["Jujutsu Kaisen", 9.4, "jjk.jfif"],
+    ["The Misfit of Demon King Academy", 9.4, "maougakuin.jfif"],
+    ["Kaze Tachinu", 9.4, "kazetachinu.jfif"],
+
+    ["Aishiteru Game wo Owarasetai", 9.3, "aishiterugame.jfif"],
+    ["JoJo's Bizarre Adventure: Diamond Is Unbreakable", 9.3, "morioh.jfif"],
+    ["Solo Leveling", 9.3, "solev.jfif"],
+    ["Kimetsu no Yaiba", 9.3, "kimetsu.jfif"],
+    ["Grand Blue", 9.3, "grandblue.jfif"],
+    ["No Game No Life", 9.3, "nogame.jfif"],
+    ["Classroom of the Elite", 9.3, "classroom.jfif"],
+    ["Death Note", 9.3, "deathnote.jfif"],
+    ["Hellsing", 9.3, "hellsing.jfif"],
+    ["Chi. Chikyuu no Undou ni Tsuite", 9.3, "chi.jfif"],
+
+    ["Owari no Seraph", 9.2, "owari.jfif"],
+    ["Himouto! Umaru-chan", 9.2, "umaru.jfif"],
+    ["Naruto", 9.2, "naruto.jfif"],
+
+    ["The Fragrant Flower Blooms with Dignity", 9.1, "fragrant.jpg"],
+    ["Tensura", 9.1, "tensura.jfif"],
+    ["Sentenced to Be a Hero", 9.1, "sentenced.jfif"],
+    ["Tondemo Skill de Isekai", 9.1, "tondemo.jfif"],
+    ["Mob Psycho 100", 9.1, "mob.jfif"],
+    ["Bocchi the Rock!", 9.1, "bocchi.jfif"],
+    ["The God of High School", 9.1, "godofhighschool.jfif"],
+    ["Suzume", 9.1, "suzume.jfif"],
+
+    ["Pseudo Harem", 9.0, "pseudoharem.jfif"],
+    ["Tune Into the Midnight Heart", 9.0, "midnightheart.jfif"],
+    ["Keiken Zumi na Kimi to, Keiken Zero na Ore ga, Otsukiai suru Hanashi", 9.0, "keiken.jfif"],
+    ["The Angel Next Door Spoils Me Rotten", 9.0, "angelnextdoor.jfif"],
+    ["Watashi ga Koibito ni Nareru Wake Nai Jan", 9.0, "watashikoibito.jfif"],
+    ["Sokushi Cheat", 9.0, "sokushi.jfif"],
+    ["Tsue to Surugi", 9.0, "tsue.jfif"],
+    ["Kaya-chan", 9.0, "kaya.jfif"],
+    ["Record of Ragnarok", 9.0, "record.jfif"],
+    ["Tanaka-kun", 9.0, "tanaka.jfif"],
+    ["Sakamoto desu ga?", 9.0, "sakamoto.jfif"],
+    ["Mashle", 9.0, "mashle.jfif"],
+    ["Chainsaw Man", 9.0, "chainsaw.jfif"],
+    ["Re:Zero", 9.0, "rezero.jfif"],
+
+    ["Bofuri", 8.9, "bofuri.jfif"],
+    ["JoJo's Bizarre Adventure: Part 1", 8.9, "jojo1.jfif"],
+    ["Kusunoki's Garden", 8.9, "kusunoki.jfif"],
+    ["Inuyashiki", 8.9, "inuyashiki.jfif"],
+    ["Kaiju No. 8", 8.9, "kaiju.jfif"],
+    ["Wind Breaker", 8.9, "windbreaker.jfif"],
+    ["Sakamoto Days", 8.9, "sakamotodays.jfif"],
+    ["Dandadan", 8.9, "dandadan.jfif"],
+    ["The Eminence in Shadow", 8.9, "eminence.jfif"],
+    ["Kaguya-sama: Love is War", 8.9, "kaguya.jfif"],
+    ["Shinmai Ossan", 8.9, "shinmai.jfif"],
+    ["Tsukimichi", 8.9, "tsukimichi.jfif"],
+    ["Gachiakuta", 8.9, "gachiakuta.jfif"],
+    ["One Punch Man", 8.9, "opm.jfif"],
+    ["Youjo Senki", 8.9, "youjosenki.jfif"],
+    ["Monster", 8.9, "monster.jfif"],
+
+    ["Arakawa Under the Bridge", 8.8, "arakawa.jfif"],
+    ["Youkai Gakkou no Sensei", 8.8, "youkai.jfif"],
+    ["Mushoku Tensei", 8.8, "mushoku.jfif"],
+    ["Sanda", 8.8, "sanda.jfif"],
+    ["Gabriel DropOut", 8.8, "gabriel.jfif"],
+    ["Cyberpunk: Edgerunners", 8.8, "cyberpunk.jfif"],
+    ["katainaka no ossan", 8.8, "zteste.jfif"],
+
+    ["Madoka Magica", 8.7, "madoka.jfif"],
+    ["Chitose Is in the Ramune Bottle", 8.7, "chitose.jpg"],
+    ["Haibara-kun no Tsuyokute Seishun New Game", 8.7, "haibara.jfif"],
+    ["The Dangers in My Heart", 8.7, "danger.jfif"],
+    ["Mugen Gacha", 8.7, "mugen.jfif"],
+    ["Zom 100", 8.7, "zom100.jfif"],
+    ["Uma Musume", 8.7, "uma.jfif"],
+    ["Blue Archive", 8.7, "bluearchive.jfif"],
+    ["Amagi Brilliant Park", 8.7, "amagi.jfif"],
+    ["Mato Seihei no Slave", 8.7, "mato.jfif"],
+    ["Overlord", 8.7, "overlord.jfif"],
+
+    ["The Shiunji Family Children", 8.6, "shiunji.jfif"],
+    ["SPY x FAMILY", 8.6, "spyxfamily.jfif"],
+
+    ["Honey Lemon Soda", 8.5, "honeylemonsoda.jfif"],
+    ["My Stepmom's Daughter Is My Ex", 8.5, "stepmom.jfif"],
+    ["The 100 Girlfriends", 8.5, "pacar100.jfif"],
+
+    ["Blue Lock", 8.3, "bluelock.jfif"],
+    ["Boruto", 8.3, "boruto.jfif"],
+
+    ["Citrus", 8.0, "citrus.jfif"],
+
+    ["Isekai de Cheat Skill", 6.7, "isekai.jfif"]
+
+];
+
+
+// Urutkan rating tertinggi ke terendah
+
+animeData.sort(function(a, b) {
+    return b[1] - a[1];
+});
+
+
+// Masukkan anime ke HTML
+
+const animeList = document.getElementById("animeList");
+
+animeData.forEach(function(anime) {
+
+    const card = document.createElement("div");
+
+    card.className = "anime";
+
+    card.innerHTML = `
+        <img src="${anime[2]}" loading="lazy" decoding="async">
+        <h3>${anime[0]}</h3>
+        <p class="rating">${anime[1].toFixed(1)}/10</p>
+    `;
+
+    animeList.appendChild(card);
+
+});
+
+</script>
+
+</body>
+</html>
