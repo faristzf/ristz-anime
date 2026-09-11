@@ -96,10 +96,12 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 }
 .character-card img {
     width: 100%;
-    height: 260px;
+    aspect-ratio: 1 / 1;
+    height: auto;
     object-fit: cover;
     border-radius: 12px;
     margin-bottom: 12px;
+    display: block;
 }
 .character-card h3 {
     margin: 4px 0 5px;
@@ -135,7 +137,7 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 <section class="hero" id="home">
 <h2>MY ANIME JOURNEY</h2>
 <p>Welcome to my personal anime collection.</p>
-<p class="tag"><span id="heroCount">98</span> anime watched • personal ratings • Ristz Anime</p>
+<p class="tag"><span id="heroCount">96</span> anime watched • personal ratings • Ristz Anime</p>
 </section>
 
 <section class="container" id="favorite">
@@ -541,19 +543,19 @@ setupMoods();
 
 <script>
 const bestMC = [
-    ["Sakuta Azusagawa", "Bunny Girl Senpai", "bunny.jpg", 10.0, "MC dengan perkembangan karakter kuat, cara berpikir realistis, dan berani menghadapi masalah."],
-    ["Hachiman Hikigaya", "Oregairu", "oregairu.jpg", 9.9, "Cara berpikirnya unik dan perkembangan karakternya jadi salah satu bagian terbaik dari ceritanya."],
-    ["Oreki Houtarou", "Hyouka", "hyouka.jpg", 9.8, "Santai, observatif, dan perlahan berkembang karena orang-orang di sekitarnya."],
-    ["Gojo Wakana", "My Dress-Up Darling", "dressupdarling.jfif", 9.5, "Pendiam tapi punya passion besar dan perkembangan kepercayaan dirinya terasa."],
-    ["Futaro Uesugi", "Gotoubun no Hanayome", "gotoubun.jpg", 9.4, "MC yang serius soal tanggung jawab dan berkembang lewat hubungannya dengan lima saudari."]
+    ["Sakuta Azusagawa", "Bunny Girl Senpai", "sakuta.jfif", 10.0, "MC dengan perkembangan karakter kuat, cara berpikir realistis, dan berani menghadapi masalah."],
+    ["Hachiman Hikigaya", "Oregairu", "hikigaya.jfif", 9.9, "Cara berpikirnya unik dan perkembangan karakternya jadi salah satu bagian terbaik dari ceritanya."],
+    ["Oreki Houtarou", "Hyouka", "oreki.jfif", 9.8, "Santai, observatif, dan perlahan berkembang karena orang-orang di sekitarnya."],
+    ["Miyamura Izumi", "Horimiya", "miyamura.jfif", 9.5, "Perkembangan karakternya terasa kuat, terutama dalam cara dia membuka diri dan menerima dirinya sendiri."],
+    ["Futaro Uesugi", "Gotoubun no Hanayome", "futaro.jfif", 9.4, "MC yang serius soal tanggung jawab dan berkembang lewat hubungannya dengan lima saudari."]
 ];
 
 const bestHeroine = [
-    ["Mai Sakurajima", "Bunny Girl Senpai", "bunny.jpg", 10.0, "Karakter kuat, elegan, dan chemistry dengan MC-nya sangat cocok."],
-    ["Asanagi Umi", "I Made Friends with the Second Prettiest Girl in My Class", "imfriends.jpg", 9.9, "Karakter yang tenang tapi punya sisi personal yang menarik, dan chemistry dengan MC terasa natural."],
-    ["Hori Kyouko", "Horimiya", "horimiya.jpg", 9.8, "Bukan cuma karakter romance, tapi punya sisi personal yang bikin karakternya terasa hidup."],
-    ["Chitanda Eru", "Hyouka", "hyouka.jpg", 9.7, "Energi, rasa penasaran, dan interaksinya dengan Oreki jadi salah satu daya tarik utama."],
-    ["Yotsuba Nakano", "Gotoubun no Hanayome", "gotoubun.jpg", 9.6, "Punya sisi ceria sekaligus emosional yang bikin perannya makin menarik."]
+    ["Mai Sakurajima", "Bunny Girl Senpai", "mai.jfif", 10.0, "Karakter kuat, elegan, dan chemistry dengan MC-nya sangat cocok."],
+    ["Asanagi Umi", "I Made Friends with the Second Prettiest Girl in My Class", "umi.jfif", 9.9, "Karakter yang tenang tapi punya sisi personal yang menarik, dan chemistry dengan MC terasa natural."],
+    ["Hori Kyouko", "Horimiya", "hori.jfif", 9.8, "Bukan cuma karakter romance, tapi punya sisi personal yang bikin karakternya terasa hidup."],
+    ["Chitanda Eru", "Hyouka", "chitanda.jfif", 9.7, "Energi, rasa penasaran, dan interaksinya dengan Oreki jadi salah satu daya tarik utama."],
+    ["Ichika Nakano", "Gotoubun no Hanayome", "ichika.jfif", 9.6, "Punya sisi dewasa, percaya diri, dan perkembangan karakter yang menarik."]
 ];
 
 function renderCharacterRanking(list, targetId) {
@@ -562,7 +564,7 @@ function renderCharacterRanking(list, targetId) {
     target.innerHTML = list.map((c, i) => `
         <div class="character-card">
             <div class="character-rank">#${i + 1}</div>
-            <img src="${c[2]}" loading="lazy" decoding="async" width="500" height="260" alt="${c[0]}">
+            <img src="${c[2]}" loading="lazy" decoding="async" width="500" height="500" alt="${c[0]}">
             <h3>${c[0]}</h3>
             <div class="character-anime">${c[1]}</div>
             <div class="character-score">★ ${c[3].toFixed(1)} / 10</div>
