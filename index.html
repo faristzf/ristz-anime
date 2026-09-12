@@ -9,7 +9,15 @@
 body{background:#120d1c;color:white;font-family:Arial,sans-serif;margin:0}
 header{position:sticky;top:0;z-index:20;background:rgba(29,20,43,.96);padding:16px 20px;text-align:center;border-bottom:2px solid #8b5cf6;backdrop-filter:blur(8px)}
 header h1{color:#b98cff;margin:0 0 10px;font-size:30px;letter-spacing:2px}
-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:6px}
+nav{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+nav a{border:1px solid transparent}
+nav a.main-tab-active{color:#fff;background:#6f42c1;border-color:#b98cff;box-shadow:0 0 14px rgba(185,140,255,.18)}
+.page-view{display:none!important}
+.page-view.active{display:block!important}
+.view-intro{max-width:1250px;margin:0 auto;padding:24px 25px 0;color:#9f96aa}
+.view-intro h2{margin:0;color:#b98cff;font-size:24px}
+.view-intro p{margin:7px 0 0;font-size:13px}
+.back-top{position:fixed;right:18px;bottom:18px;z-index:30;border:1px solid #4a3560;background:#21172e;color:#fff;border-radius:50%;width:42px;height:42px;cursor:pointer;display:none}.back-top.show{display:block}
 nav a{color:white;text-decoration:none;padding:7px 9px;border-radius:8px;transition:.2s;font-size:13px}
 nav a:hover{color:#b98cff;background:#291d3a}
 section{scroll-margin-top:100px}
@@ -210,10 +218,10 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 <body>
 <header>
 <h1>RISTZ ANIME</h1>
-<nav>
-<a href="#home">HOME</a><a href="#favorite">FAVORITE</a><a href="#halloffame">HALL OF FAME</a><a href="#history">HISTORY</a><a href="#completed">COMPLETED</a><a href="#stats">STATS</a><a href="#about">ABOUT</a>
-</nav>
+<nav id="mainNav"><a href="#" data-main-view="anime">ANIME</a><a href="#" data-main-view="character">CHARACTER</a><a href="#" data-main-view="profile">PROFILE</a></nav>
 </header>
+<div class="view-intro" id="viewIntro"><h2>ANIME</h2><p>Semua database anime, ranking, history, review, dan statistik.</p></div>
+
 
 <section class="hero" id="home">
 <h2>MY ANIME JOURNEY</h2>
@@ -221,25 +229,25 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 <p class="tag"><span id="heroCount">96</span> anime watched • personal ratings • Ristz Anime</p>
 </section>
 
-<section class="container" id="favorite">
+<section class="container page-view" data-view="anime" id="favorite">
 <div class="section-title"><h2>MY FAVORITE ANIME</h2><span>TOP 5</span></div>
 <div class="anime-list favorite-list" id="favoriteList"></div>
 </section>
 <hr>
 
-<section class="container" id="halloffame">
+<section class="container page-view" data-view="anime" id="halloffame">
 <div class="section-title"><h2>10/10 HALL OF FAME</h2><span>PEAK</span></div>
 <div class="anime-list" id="hallList"></div>
 </section>
 <hr>
 
-<section class="container" id="history">
+<section class="container page-view" data-view="anime" id="history">
 <div class="section-title"><h2>WATCH HISTORY</h2><span>RECENTLY FINISHED</span></div>
 <div class="anime-list" id="historyList"></div>
 </section>
 <hr>
 
-<section class="container" id="extras">
+<section class="container page-view" data-view="anime" id="extras">
 <div class="section-title"><h2>MY ANIME EXTRAS</h2><span>PERSONAL DATA</span></div>
 <div class="feature-grid">
 <div class="feature-box"><h3>🏆 TOP 10 RANKING</h3><div class="top-list" id="top10List"></div></div>
@@ -253,7 +261,7 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 </section>
 <hr>
 
-<section id="characters" class="character-ranking">
+<section class="page-view" data-view="character" id="characters" class="character-ranking">
     <h2>BEST CHARACTERS</h2>
     <p style="opacity:.7">Ranking pribadi. Urutan ditentukan sendiri. Rating di kartu hanya skor karakter versi gw.</p>
 
@@ -263,7 +271,7 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
     <h3 class="character-section-title">BEST HEROINE</h3>
     <div id="best-heroine-grid" class="character-grid"></div>
 </section>
-<section id="personal-hub" class="personal-hub">
+<section class="page-view" data-view="profile" id="personal-hub" class="personal-hub">
     <h2>MY ANIME HUB</h2>
     <p class="hub-note">Kumpulan bagian paling personal dari Ristz Anime.</p>
 
@@ -307,7 +315,7 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
     </div>
 </section>
 
-<section id="v8-features" class="personal-hub">
+<section class="page-view" data-view="profile" id="v8-features" class="personal-hub">
     <h2>RISTZ ANIME AWARDS</h2>
     <p class="hub-note">Penghargaan versi pribadi. Semua pemenang bisa diganti manual.</p>
     <div id="anime-awards-grid" class="awards-grid"></div>
@@ -337,7 +345,7 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 
 
 
-<section class="container" id="completed">
+<section class="container page-view" data-view="anime" id="completed">
 <div class="section-title"><h2>COMPLETED ANIME</h2><span>FILTER & SEARCH</span></div>
 <div class="tools">
 <input id="searchInput" type="search" placeholder="Search anime...">
@@ -351,7 +359,7 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 </section>
 <hr>
 
-<section class="container" id="stats">
+<section class="container page-view" data-view="anime" id="stats">
 <div class="section-title"><h2>ANIME STATISTICS</h2><span>MY NUMBERS</span></div>
 <div class="stats">
 <div class="stat"><b id="totalStat">98</b><span>Total Anime</span></div>
@@ -362,14 +370,14 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 </section>
 <hr>
 
-<section class="container" id="about">
+<section class="container page-view" data-view="profile" id="about">
 <div class="section-title"><h2>ABOUT ME</h2></div>
 <div class="about-box">
 <p>This is my personal anime website. Here I keep track of anime that I have watched, my ratings, and my favorite anime.</p>
 <p><strong>Ristz Anime</strong> is basically my little archive of the anime I've finished so far.</p>
 </div>
 </section>
-<section class="container" id="ristz-plus">
+<section class="container page-view" data-view="profile" id="ristz-plus">
 <div class="section-title"><h2>RISTZ ANIME PLUS</h2></div>
 <div class="r12-grid">
   <div class="r12-card" id="r12-profile-card"><h3>RISTZ PROFILE</h3><div id="r12-profile"></div></div>
@@ -1260,6 +1268,14 @@ document.addEventListener("DOMContentLoaded",renderMyTierList);
   document.addEventListener("DOMContentLoaded",init);
 })();
 </script>
+<script>
+(function(){
+const intro={anime:['ANIME','Semua database anime, ranking, history, review, dan statistik.'],character:['CHARACTER','Ranking MC, heroine, supporting character, couple, villain, dan side character.'],profile:['PROFILE','Profil Ristz, tier list, status tontonan, progress, awards, journey, dan fitur pribadi.']};
+function setMainView(view){document.querySelectorAll('.page-view').forEach(function(e){e.classList.toggle('active',e.dataset.view===view)});document.querySelectorAll('[data-main-view]').forEach(function(e){e.classList.toggle('main-tab-active',e.dataset.mainView===view)});var i=document.getElementById('viewIntro');if(i)i.innerHTML='<h2>'+intro[view][0]+'</h2><p>'+intro[view][1]+'</p>';window.scrollTo(0,0);history.replaceState(null,'','#'+view)}
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('[data-main-view]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();setMainView(b.dataset.mainView)})});var h=location.hash.slice(1);setMainView(['anime','character','profile'].includes(h)?h:'anime')});
+})();
+</script>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 </body>
 
 <script>
