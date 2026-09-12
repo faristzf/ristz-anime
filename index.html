@@ -125,6 +125,10 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
     font-size: 1.25rem;
 }
 </style>
+
+<style>
+.completed-pagination{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:22px 0 4px}.completed-pagination button{border:1px solid rgba(170,120,255,.3);background:#171020;color:inherit;border-radius:9px;padding:8px 12px;cursor:pointer;font-weight:700}.completed-pagination button:hover{background:rgba(130,80,190,.25)}.completed-pagination button.active{background:rgba(130,80,190,.45);border-color:rgba(190,140,255,.65)}.completed-pagination button:disabled{opacity:.4;cursor:not-allowed}.page-info{opacity:.75;font-size:.9rem;margin:0 8px}
+</style>
 </head>
 <body>
 <header>
@@ -422,6 +426,9 @@ function renderHistory(){
   watchHistory.forEach(name=>{const a=animeData.find(x=>x[0]===name);if(a)list.appendChild(makeCard(a))});
 }
 
+let completedPage = 1;
+const completedPerPage = 10;
+
 function renderCompleted(){
   const q=document.getElementById("searchInput").value.toLowerCase().trim();
   const minRating=parseFloat(document.getElementById("ratingFilter").value);
@@ -431,9 +438,53 @@ function renderCompleted(){
     a[1]>=minRating &&
     (genre==="All"||genreOf(a)===genre)
   );
-  const list=document.getElementById("animeList"); list.innerHTML="";
-  filtered.forEach(a=>list.appendChild(makeCard(a)));
-  document.getElementById("resultCount").textContent=`Showing ${filtered.length} of ${animeData.length} anime`;
+
+  const totalPages=Math.max(1,Math.ceil(filtered.length/completedPerPage));
+  if(completedPage>totalPages) completedPage=totalPages;
+  const startIndex=(completedPage-1)*completedPerPage;
+  const pageItems=filtered.slice(startIndex,startIndex+completedPerPage);
+
+  const list=document.getElementById("animeList");
+  list.innerHTML="";
+  pageItems.forEach(a=>list.appendChild(makeCard(a)));
+  document.getElementById("resultCount").textContent=`Showing ${filtered.length ? startIndex+1 : 0}-${Math.min(startIndex+completedPerPage,filtered.length)} of ${filtered.length} anime`;
+  renderCompletedPagination(totalPages);
+}
+
+function renderCompletedPagination(totalPages){
+  let nav=document.getElementById("completedPagination");
+  if(!nav){
+    nav=document.createElement("div");
+    nav.id="completedPagination";
+    nav.className="completed-pagination";
+    document.getElementById("animeList").after(nav);
+  }
+  nav.innerHTML="";
+
+  const prev=document.createElement("button");
+  prev.textContent="‹ Prev";
+  prev.disabled=completedPage===1;
+  prev.onclick=()=>{completedPage--;renderCompleted();document.getElementById("completed").scrollIntoView({behavior:"smooth",block:"start"})};
+  nav.appendChild(prev);
+
+  for(let i=1;i<=totalPages;i++){
+    const btn=document.createElement("button");
+    btn.textContent=i;
+    btn.className=i===completedPage?"active":"";
+    btn.onclick=()=>{completedPage=i;renderCompleted();document.getElementById("completed").scrollIntoView({behavior:"smooth",block:"start"})};
+    nav.appendChild(btn);
+  }
+
+  const info=document.createElement("span");
+  info.className="page-info";
+  info.textContent=`Page ${completedPage} / ${totalPages}`;
+  nav.appendChild(info);
+
+  const next=document.createElement("button");
+  next.textContent="Next ›";
+  next.disabled=completedPage===totalPages;
+  next.onclick=()=>{completedPage++;renderCompleted();document.getElementById("completed").scrollIntoView({behavior:"smooth",block:"start"})};
+  nav.appendChild(next);
 }
 
 function renderStats(){
@@ -515,10 +566,11 @@ function setupMoods(){
   }));
 }
 
-document.getElementById("searchInput").addEventListener("input",renderCompleted);
-document.getElementById("ratingFilter").addEventListener("change",renderCompleted);
-document.getElementById("genreFilter").addEventListener("change",renderCompleted);
+document.getElementById("searchInput").addEventListener("input",()=>{completedPage=1;renderCompleted()});
+document.getElementById("ratingFilter").addEventListener("change",()=>{completedPage=1;renderCompleted()});
+document.getElementById("genreFilter").addEventListener("change",()=>{completedPage=1;renderCompleted()});
 document.getElementById("clearBtn").addEventListener("click",()=>{
+  completedPage=1;
   document.getElementById("searchInput").value="";
   document.getElementById("ratingFilter").value="0";
   document.getElementById("genreFilter").value="All";
