@@ -188,6 +188,15 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 .compare-stat:last-child{border-bottom:0}
 @media(max-width:650px){.compare-wrap{grid-template-columns:1fr}.tier-row{grid-template-columns:55px 1fr}}
 </style>
+
+<style>
+.owner-review-box{margin-top:16px;padding:14px;border-radius:14px;background:linear-gradient(145deg,rgba(110,55,160,.22),rgba(20,12,35,.85));border:1px solid rgba(170,120,255,.28)}
+.owner-review-title{font-weight:800;margin-bottom:7px}
+.owner-review-meta{font-size:.82rem;opacity:.65;margin-bottom:8px}
+.owner-review-text{line-height:1.55}
+.visitor-review-box{margin-top:12px;padding:13px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1)}
+.review-label{font-weight:750;margin-bottom:6px}
+</style>
 </head>
 <body>
 <header>
@@ -264,6 +273,23 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
     <h3 class="character-section-title">RECENTLY ADDED / WATCHED</h3>
     <div id="recent-anime-list" class="recent-list"></div>
 </section>
+<section class="personal-hub" id="public-owner-reviews">
+    <h2>PUBLIC REVIEWS</h2>
+    <p class="hub-note">Review Ristz yang bisa dibaca semua orang. Review pengunjung tetap terpisah di perangkat mereka.</p>
+    <div class="hub-grid">
+        <div class="hub-card">
+            <h3>👤 Ristz</h3>
+            <div class="hub-small">OWNER REVIEW</div>
+            <p>Review yang ditulis di website ini bersifat publik dan tidak bisa diubah oleh pengunjung lewat browser mereka.</p>
+        </div>
+        <div class="hub-card">
+            <h3>🔒 Visitor Reviews</h3>
+            <div class="hub-small">LOCAL ONLY</div>
+            <p>Review pengunjung tersimpan di browser mereka sendiri dan tidak menimpa review Ristz.</p>
+        </div>
+    </div>
+</section>
+
 <section id="v8-features" class="personal-hub">
     <h2>RISTZ ANIME AWARDS</h2>
     <p class="hub-note">Penghargaan versi pribadi. Semua pemenang bisa diganti manual.</p>
@@ -993,6 +1019,53 @@ function updateCompare(){
     });
 }
 document.addEventListener("DOMContentLoaded",renderV8);
+</script>
+
+<script>
+/*
+  REVIEW SISTEM:
+  ownerReviews = REVIEW LU, PUBLIK, dan sama untuk semua pengunjung.
+  visitor reviews tetap lokal di browser masing-masing.
+
+  Isi ownerReviews dengan:
+  "Judul anime": "review lu"
+*/
+const ownerReviews = {
+    "Bunny Girl Senpai": "Tulis review pribadi lu di sini.",
+    "I Made Friends with the Second Prettiest Girl in My Class": "Tulis review pribadi lu di sini.",
+    "Horimiya": "Tulis review pribadi lu di sini.",
+    "Oregairu": "Tulis review pribadi lu di sini.",
+    "Hyouka": "Tulis review pribadi lu di sini."
+};
+
+function cleanAnimeTitle(title){
+    return String(title || "").replace(/<[^>]*>/g,"").trim();
+}
+
+function getOwnerReview(title){
+    const clean = cleanAnimeTitle(title);
+    return ownerReviews[clean] || "";
+}
+
+function buildOwnerReviewHTML(title){
+    const review = getOwnerReview(title);
+    if(!review) return "";
+    return `
+      <div class="owner-review-box">
+        <div class="owner-review-title">REVIEW RISTZ</div>
+        <div class="owner-review-meta">👤 Owner / Public Review</div>
+        <div class="owner-review-text">${review}</div>
+      </div>`;
+}
+
+/*
+  Helper publik untuk popup/komponen review:
+  panggil buildOwnerReviewHTML(animeTitle) di area review popup.
+*/
+window.RistzPublicReview = {
+    get: getOwnerReview,
+    render: buildOwnerReviewHTML
+};
 </script>
 </body>
 </html>
