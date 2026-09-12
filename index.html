@@ -59,6 +59,8 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 
 /* EXTRA FEATURES */
 .feature-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}.feature-box{background:#1d142b;border:1px solid #39264d;border-radius:14px;padding:22px}.feature-box h3{color:#b98cff;margin:0 0 15px}.top-list{display:flex;flex-direction:column;gap:9px}.rank-row{display:flex;align-items:center;gap:12px;background:#21172e;border:1px solid #39264d;border-radius:9px;padding:10px 12px;cursor:pointer}.rank-num{width:28px;color:#b98cff;font-weight:bold}.rank-name{flex:1;font-size:14px}.rank-rating{color:#ffd166;font-weight:bold;font-size:13px}.month-card{display:flex;gap:15px;align-items:center}.month-card img{width:90px;height:125px;object-fit:cover;border-radius:8px}.month-card h3{margin:0 0 7px;color:white}.month-card p{margin:4px 0;color:#a99db5;font-size:13px;line-height:1.5}.distribution{display:flex;flex-direction:column;gap:8px}.dist-row{display:grid;grid-template-columns:55px 1fr 35px;align-items:center;gap:8px;font-size:12px;color:#cfc7d9}.bar{height:9px;background:#291d3a;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;background:#8b5cf6;border-radius:20px}.mood-buttons{display:flex;flex-wrap:wrap;gap:8px}.mood-btn{background:#21172e;color:white;border:1px solid #52377a;border-radius:8px;padding:8px 11px;cursor:pointer}.mood-btn:hover{background:#291d3a;border-color:#b98cff}.review-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}.review-card{background:#21172e;border:1px solid #39264d;border-radius:10px;padding:15px;cursor:pointer}.review-card h4{margin:0 0 7px;color:#fff;font-size:14px}.review-card p{margin:0;color:#a99db5;font-size:12px;line-height:1.5}.review-card .rating{margin-bottom:5px}@media(max-width:800px){.feature-grid{grid-template-columns:1fr}.month-card img{width:75px;height:105px}}
+
+.tier-choice{border:1px solid #4a315e;background:#24162e;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:700}.tier-choice:hover{background:#382046}.tier-choice.active{outline:2px solid #b57cff;background:#4a2864}.tier-row{display:flex;gap:10px;align-items:center;margin:10px 0;padding:10px;border-radius:10px;background:#160f1f}.tier-label{width:34px;font-weight:800}.tier-anime{display:flex;gap:8px;flex-wrap:wrap}.tier-chip{padding:6px 10px;border-radius:8px;background:#24162e;font-size:13px}
 </style>
 
 <style>
@@ -366,7 +368,19 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 <button onclick="markWatched()">✓ Selesai ditonton lagi</button>
 <div class="review-editor">
   <h4>✍️ Review pribadi</h4>
-  <textarea id="reviewInput" placeholder="Tulis review lu tentang anime ini..."></textarea>
+  <div id="tierPicker" style="margin:16px 0;padding:14px;border:1px solid #352347;border-radius:12px;background:#160f1f;display:none">
+  <div style="font-weight:700;margin-bottom:10px">MY TIER</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="tier-choice" data-tier="S">S</button>
+    <button class="tier-choice" data-tier="A">A</button>
+    <button class="tier-choice" data-tier="B">B</button>
+    <button class="tier-choice" data-tier="C">C</button>
+    <button class="tier-choice" data-tier="D">D</button>
+    <button class="tier-choice" data-tier="clear">CLEAR</button>
+  </div>
+  <div id="currentTier" style="margin-top:9px;font-size:12px;color:#9f96aa"></div>
+</div>
+<textarea id="reviewInput" placeholder="Tulis review lu tentang anime ini..."></textarea>
   <div class="review-actions">
     <button onclick="saveReview()">Simpan Review</button>
     <button onclick="clearReview()">Hapus Review</button>
@@ -663,6 +677,7 @@ function openModal(anime){
   document.getElementById("modalGenre").textContent="Genre: "+genreOf(anime);
   document.getElementById("modalWatched").textContent="Watched: "+countWatched(anime[0])+"×";
   document.getElementById("modalDescription").textContent=descriptionMap[anime[0]]||"Belum ada deskripsi.";
+  updateTierPicker(anime[0]);
   const reviewInput=document.getElementById("reviewInput");
   if(reviewInput) reviewInput.value=getReview(anime[0]);
   const reviewStatus=document.getElementById("reviewStatus");
@@ -1067,5 +1082,5 @@ window.RistzPublicReview = {
     render: buildOwnerReviewHTML
 };
 </script>
-</body>
+\n<script>\nconst ristzTierStorageKey = "ristzAnimeTiers";\nlet ristzTiers = JSON.parse(localStorage.getItem(ristzTierStorageKey) || "{}");\nfunction saveRistzTiers(){ localStorage.setItem(ristzTierStorageKey, JSON.stringify(ristzTiers)); }\nfunction setAnimeTier(title,tier){\n  title=cleanAnimeTitle(title);\n  if(tier === "clear") delete ristzTiers[title];\n  else ristzTiers[title]=tier;\n  saveRistzTiers();\n  updateTierPicker(title);\n  renderMyTierList();\n}\nfunction updateTierPicker(title){\n  const box=document.getElementById("tierPicker"), current=document.getElementById("currentTier");\n  if(!box) return;\n  box.style.display="block";\n  const tier=ristzTiers[cleanAnimeTitle(title)];\n  current.textContent=tier ? "Tier sekarang: "+tier : "Belum diberi tier";\n  document.querySelectorAll(".tier-choice").forEach(b=>b.classList.toggle("active",b.dataset.tier===tier));\n  document.querySelectorAll(".tier-choice").forEach(b=>b.onclick=()=>setAnimeTier(title,b.dataset.tier));\n}\nfunction renderMyTierList(){\n  const el=document.getElementById("anime-tier-list"); if(!el) return;\n  el.innerHTML=["S","A","B","C","D"].map(t=>{\n    const names=Object.keys(ristzTiers).filter(n=>ristzTiers[n]===t);\n    return `<div class="tier-row"><div class="tier-label">${t}</div><div class="tier-anime">${names.length?names.map(n=>`<span class="tier-chip">${n}</span>`).join(""):"<span style="opacity:.5">Kosong</span>"}</div></div>`;\n  }).join("");\n}\ndocument.addEventListener("DOMContentLoaded",renderMyTierList);\n</script>\n</body>
 </html>
