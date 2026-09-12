@@ -69,6 +69,17 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 .feature-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}.feature-box{background:#1d142b;border:1px solid #39264d;border-radius:14px;padding:22px}.feature-box h3{color:#b98cff;margin:0 0 15px}.top-list{display:flex;flex-direction:column;gap:9px}.rank-row{display:flex;align-items:center;gap:12px;background:#21172e;border:1px solid #39264d;border-radius:9px;padding:10px 12px;cursor:pointer}.rank-num{width:28px;color:#b98cff;font-weight:bold}.rank-name{flex:1;font-size:14px}.rank-rating{color:#ffd166;font-weight:bold;font-size:13px}.month-card{display:flex;gap:15px;align-items:center}.month-card img{width:90px;height:125px;object-fit:cover;border-radius:8px}.month-card h3{margin:0 0 7px;color:white}.month-card p{margin:4px 0;color:#a99db5;font-size:13px;line-height:1.5}.distribution{display:flex;flex-direction:column;gap:8px}.dist-row{display:grid;grid-template-columns:55px 1fr 35px;align-items:center;gap:8px;font-size:12px;color:#cfc7d9}.bar{height:9px;background:#291d3a;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;background:#8b5cf6;border-radius:20px}.mood-buttons{display:flex;flex-wrap:wrap;gap:8px}.mood-btn{background:#21172e;color:white;border:1px solid #52377a;border-radius:8px;padding:8px 11px;cursor:pointer}.mood-btn:hover{background:#291d3a;border-color:#b98cff}.review-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}.review-card{background:#21172e;border:1px solid #39264d;border-radius:10px;padding:15px;cursor:pointer}.review-card h4{margin:0 0 7px;color:#fff;font-size:14px}.review-card p{margin:0;color:#a99db5;font-size:12px;line-height:1.5}.review-card .rating{margin-bottom:5px}@media(max-width:800px){.feature-grid{grid-template-columns:1fr}.month-card img{width:75px;height:105px}}
 
 .tier-choice{border:1px solid #4a315e;background:#24162e;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:700}.tier-choice:hover{background:#382046}.tier-choice.active{outline:2px solid #b57cff;background:#4a2864}.tier-row{display:flex;gap:10px;align-items:center;margin:10px 0;padding:10px;border-radius:10px;background:#160f1f}.tier-label{width:34px;font-weight:800}.tier-anime{display:flex;gap:8px;flex-wrap:wrap}.tier-chip{padding:6px 10px;border-radius:8px;background:#24162e;font-size:13px}
+
+.music-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px}
+.music-box{padding:18px;border:1px solid rgba(167,139,250,.14);border-radius:20px;background:rgba(18,15,25,.78);box-shadow:0 14px 38px rgba(0,0,0,.2)}
+.music-label{font-size:11px;font-weight:900;letter-spacing:.14em;color:#c4a7ff;margin:3px 2px 14px}
+.hyouka-mini{display:flex;align-items:center;gap:14px;padding:18px;border:1px solid rgba(167,139,250,.14);border-radius:16px;background:rgba(10,8,14,.55)}
+.hyouka-disc{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#c4a7ff 0 8%,#6d4caf 9% 22%,#17121f 23% 100%);box-shadow:0 0 25px rgba(139,92,246,.2);font-size:20px}
+.hyouka-mini-info{display:flex;flex-direction:column;gap:4px;flex:1}.hyouka-mini-info strong{font-size:17px}.hyouka-mini-info span{font-size:11px;color:#9c94a8}
+#hyoukaMiniPlay{width:42px;height:42px;border:0;border-radius:50%;background:#9b6cff;color:#fff;cursor:pointer}
+.music-range{width:100%;margin-top:18px;accent-color:#9b6cff}.music-time{display:flex;justify-content:space-between;color:#9c94a8;font-size:10px;margin-top:4px}
+@media(max-width:700px){.music-grid{grid-template-columns:1fr}}
+
 </style>
 
 <style>
@@ -246,24 +257,6 @@ hr{border-top-color:#2a1d38}
 .back-top{background:#181020;border-color:#4a3560;box-shadow:0 6px 20px rgba(0,0,0,.3)}
 footer{background:#120c1b;border-top:1px solid #2b1e39}
 @media(max-width:600px){header{padding:11px 8px}header h1{font-size:21px;letter-spacing:3px}.view-intro{padding:22px 13px 0}.view-intro h2{font-size:22px}.hero{min-height:290px;padding:40px 16px}.hero h2{font-size:35px}.container{padding:28px 12px}.section-title h2{font-size:19px}.section-title span{font-size:9px}.anime-list{gap:10px}.anime{padding:7px}.anime img{height:225px}.anime h3{font-size:12.5px;margin-top:9px}.tools{margin-bottom:18px}.tools input,.tools select,.tools button{font-size:13px}.feature-box{padding:15px}.modal{padding:10px}.modal-box{padding:17px;border-radius:14px}}
-</style>
-
-<style id="ristz-ui-v16">
-/* v16 visual polish: navbar + hero + anime cards */
-header{backdrop-filter:blur(16px);background:rgba(9,7,15,.82)!important;border-bottom:1px solid rgba(167,139,250,.14)!important;box-shadow:0 8px 30px rgba(0,0,0,.18)}
-nav a,nav button{transition:transform .22s ease,background .22s ease,box-shadow .22s ease,color .22s ease!important}
-nav a:hover,nav button:hover{transform:translateY(-1px);background:rgba(139,92,246,.12)!important}
-nav .active,nav a.active{box-shadow:0 0 22px rgba(139,92,246,.18)!important}
-.hero{position:relative;overflow:hidden;border:1px solid rgba(167,139,250,.16)!important;box-shadow:0 18px 55px rgba(0,0,0,.28)!important}
-.hero:before{content:"";position:absolute;inset:-45%;background:radial-gradient(circle at 70% 35%,rgba(139,92,246,.16),transparent 28%),radial-gradient(circle at 20% 80%,rgba(99,102,241,.10),transparent 25%);pointer-events:none}
-.hero>*{position:relative;z-index:1}
-.anime-card{border:1px solid rgba(167,139,250,.12)!important;background:linear-gradient(180deg,rgba(24,18,34,.92),rgba(13,10,19,.96))!important;box-shadow:0 10px 28px rgba(0,0,0,.20)!important;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease!important}
-.anime-card:hover{transform:translateY(-6px)!important;border-color:rgba(167,139,250,.42)!important;box-shadow:0 18px 38px rgba(0,0,0,.34),0 0 24px rgba(139,92,246,.10)!important}
-.anime-card img{transition:transform .35s ease,filter .35s ease!important}
-.anime-card:hover img{transform:scale(1.035)!important;filter:saturate(1.06) brightness(1.04)!important}
-.anime-card .title,.anime-card h3{letter-spacing:.01em}
-.section-title{letter-spacing:.02em}
-@media(max-width:700px){.hero{border-radius:18px!important}.anime-card:hover{transform:translateY(-3px)!important}}
 </style>
 </head>
 
@@ -455,6 +448,32 @@ nav .active,nav a.active{box-shadow:0 0 22px rgba(139,92,246,.18)!important}
 </section>
 <hr>
 
+
+<section class="section" id="music">
+  <div class="section-head">
+    <div><div class="section-kicker">MUSIC</div><h2>Ristz Music</h2></div>
+    <p>Spotify playlist + Hyouka BGM. Pilih yang mau diputer.</p>
+  </div>
+  <div class="music-grid">
+    <div class="music-box">
+      <div class="music-label">SPOTIFY PLAYLIST</div>
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3i08bQoQ6eOdznOftkoRXN?utm_source=generator&si=d9ed88462ca34a9b"
+        width="100%" height="352" frameborder="0" allowfullscreen
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+    <div class="music-box">
+      <div class="music-label">HYOUKA BGM</div>
+      <div class="hyouka-mini">
+        <div class="hyouka-disc">♪</div>
+        <div class="hyouka-mini-info"><strong>Hyouka</strong><span>Relax / Study / Chill</span></div>
+        <button id="hyoukaMiniPlay" type="button">▶</button>
+      </div>
+      <input id="hyoukaMiniProgress" class="music-range" type="range" min="0" max="100" value="0">
+      <div class="music-time"><span id="hyoukaMiniCurrent">0:00</span><span id="hyoukaMiniDuration">0:00</span></div>
+    </div>
+  </div>
+</section>
+
 <section class="container page-view" data-view="profile" id="about">
 <div class="section-title"><h2>ABOUT ME</h2></div>
 <div class="about-box">
@@ -533,7 +552,6 @@ const animeData = [
     ["Hyouka", 9.8, "hyouka.jpg"],
     ["Bleach", 9.7, "bleach.jfif"],
     ["**Alya Sometimes Hides Her Feelings in Russian**  ", 9.0, "roshidere.jfif"],
-    ["Yuru Camp", 9.5, "yuru.jfif"],
 
     ["Haikyuu!!", 9.5, "haikyuu.jfif"],
     ["JoJo's Bizarre Adventure: Stardust Crusaders", 9.5, "stardust.jfif"],
@@ -563,7 +581,6 @@ const animeData = [
     ["Owari no Seraph", 9.2, "owari.jfif"],
     ["Himouto! Umaru-chan", 9.2, "umaru.jfif"],
     ["Naruto", 9.2, "naruto.jfif"],
-    ["Gakuen Babysitters", 9.2, "gakuen.jfif"],
 
     ["The Fragrant Flower Blooms with Dignity", 9.1, "fragrant.jpg"],
     ["Tensura", 9.1, "tensura.jfif"],
@@ -583,7 +600,6 @@ const animeData = [
     ["Tsue to Surugi", 9.0, "tsue.jfif"],
     ["Kaya-chan", 9.0, "kaya.jfif"],
     ["Record of Ragnarok", 9.0, "record.jfif"],
-    ["Kotari Lives Alone", 9.0, "kotaro.jfif"],
     ["Tanaka-kun", 9.0, "tanaka.jfif"],
     ["Sakamoto desu ga?", 9.0, "sakamoto.jfif"],
     ["Mashle", 9.0, "mashle.jfif"],
@@ -592,11 +608,9 @@ const animeData = [
 
     ["Bofuri", 8.9, "bofuri.jfif"],
     ["JoJo's Bizarre Adventure: Part 1", 8.9, "jojo1.jfif"],
-    ["Highschool DxD", 8.9, "dxd.jfif"],
     ["Kusunoki's Garden", 8.9, "kusunoki.jfif"],
     ["Inuyashiki", 8.9, "inuyashiki.jfif"],
     ["Kaiju No. 8", 8.9, "kaiju.jfif"],
-    ["The Way Of Househusband", 8.9, "househusband.jfif"],
     ["Wind Breaker", 8.9, "windbreaker.jfif"],
     ["Sakamoto Days", 8.9, "sakamotodays.jfif"],
     ["Dandadan", 8.9, "dandadan.jfif"],
@@ -1408,5 +1422,10 @@ document.addEventListener("DOMContentLoaded", function(){
     if(typeof renderAwards === "function") renderAwards();
   }catch(e){ console.error("Ristz init error:", e); }
 });
+
+const hAudio=document.getElementById('hyoukaAudio'),hMiniPlay=document.getElementById('hyoukaMiniPlay'),hMiniProgress=document.getElementById('hyoukaMiniProgress'),hMiniCurrent=document.getElementById('hyoukaMiniCurrent'),hMiniDuration=document.getElementById('hyoukaMiniDuration');
+function hFmt(s){if(!Number.isFinite(s))return'0:00';const m=Math.floor(s/60),sec=Math.floor(s%60).toString().padStart(2,'0');return m+':'+sec}
+if(hAudio&&hMiniPlay){hAudio.addEventListener('loadedmetadata',()=>hMiniDuration.textContent=hFmt(hAudio.duration));hAudio.addEventListener('timeupdate',()=>{hMiniProgress.value=hAudio.duration?(hAudio.currentTime/hAudio.duration)*100:0;hMiniCurrent.textContent=hFmt(hAudio.currentTime)});hMiniPlay.addEventListener('click',async()=>{if(hAudio.paused){try{await hAudio.play()}catch(e){return}}else hAudio.pause()});hMiniProgress.addEventListener('input',()=>{if(hAudio.duration)hAudio.currentTime=(hMiniProgress.value/100)*hAudio.duration});hAudio.addEventListener('play',()=>hMiniPlay.textContent='❚❚');hAudio.addEventListener('pause',()=>hMiniPlay.textContent='▶')}
+
 </script>
 </html>
