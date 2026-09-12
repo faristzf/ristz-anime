@@ -199,6 +199,10 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 .visitor-review-box{margin-top:12px;padding:13px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1)}
 .review-label{font-weight:750;margin-bottom:6px}
 </style>
+
+<style>
+.profile-card{background:linear-gradient(145deg,rgba(80,35,120,.38),rgba(20,12,35,.95));border:1px solid rgba(170,120,255,.28);border-radius:18px;padding:22px;margin-bottom:24px}.profile-head{display:flex;align-items:center;gap:16px;margin-bottom:18px}.profile-avatar{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#24162e;border:1px solid #6d4b93;font-size:25px}.profile-head h3{margin:0;color:#b98cff;font-size:22px}.profile-head p{margin:4px 0 0;color:#9f96aa;font-size:13px}.profile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.profile-stat{background:#171020;border:1px solid #39264d;border-radius:11px;padding:13px;text-align:center}.profile-stat b{display:block;color:#b98cff;font-size:21px}.profile-stat span{font-size:11px;color:#9f96aa}.status-editor{margin:14px 0;background:#1a1225;border:1px solid #39264d;border-radius:10px;padding:12px;text-align:left}.status-editor h4{margin:0 0 10px;color:#b98cff}.status-editor-row{display:flex;gap:7px;flex-wrap:wrap}.status-editor button,.status-editor input{background:#24162e;color:#fff;border:1px solid #52377a;border-radius:8px;padding:9px 11px}.status-editor button{cursor:pointer}.status-editor button.active{background:#4a2864;border-color:#b57cff}.status-editor input{width:100%;margin-top:8px;outline:none}.status-editor input:focus{border-color:#b98cff}.status-current{font-size:12px;color:#9f96aa;margin-top:8px}.status-item{background:#21172e;border:1px solid #39264d;border-radius:9px;padding:10px 12px;display:flex;justify-content:space-between;gap:12px;margin-bottom:7px;font-size:13px}.status-item span:last-child{color:#b98cff}.progress-badge{font-size:11px;color:#9f96aa;margin:3px 0 0}.timeline-box .journey-now{color:#b98cff;font-weight:700}.timeline-box .journey-stat{font-size:12px;color:#9f96aa;margin-top:5px}@media(max-width:700px){.profile-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
 </head>
 <body>
 <header>
@@ -260,6 +264,14 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
     <h2>MY ANIME HUB</h2>
     <p class="hub-note">Kumpulan bagian paling personal dari Ristz Anime.</p>
 
+    <div class="profile-card" id="ristz-profile">
+        <div class="profile-head">
+            <div class="profile-avatar">R</div>
+            <div><h3>RISTZ ANIME PROFILE</h3><p>Personal anime archive</p></div>
+        </div>
+        <div class="profile-grid" id="profile-stats"></div>
+    </div>
+
     <div id="hub-stats" class="hub-grid"></div>
 
     <h3 class="character-section-title">FAVORITE CHARACTERS</h3>
@@ -302,10 +314,10 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 
     <h3 class="character-section-title">WATCH STATUS</h3>
     <div class="status-controls">
-        <button class="status-btn" onclick="showStatus('Completed')">Completed</button>
-        <button class="status-btn" onclick="showStatus('Watching')">Watching</button>
-        <button class="status-btn" onclick="showStatus('Planned')">Planned</button>
-        <button class="status-btn" onclick="showStatus('Dropped')">Dropped</button>
+        <button class="status-btn active" data-status="Completed" onclick="showStatus('Completed')">Completed</button>
+        <button class="status-btn" data-status="Watching" onclick="showStatus('Watching')">Watching</button>
+        <button class="status-btn" data-status="Planned" onclick="showStatus('Planned')">Planned</button>
+        <button class="status-btn" data-status="Dropped" onclick="showStatus('Dropped')">Dropped</button>
     </div>
     <div id="status-list" class="status-list"></div>
 
@@ -366,6 +378,17 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 <p id="modalWatched"></p>
 <p id="modalDescription" class="description"></p>
 <button onclick="markWatched()">✓ Selesai ditonton lagi</button>
+<div class="status-editor">
+  <h4>📺 Watch Status & Progress</h4>
+  <div class="status-editor-row">
+    <button class="modal-status-btn" data-status="Completed">Completed</button>
+    <button class="modal-status-btn" data-status="Watching">Watching</button>
+    <button class="modal-status-btn" data-status="Planned">Planned</button>
+    <button class="modal-status-btn" data-status="Dropped">Dropped</button>
+  </div>
+  <input id="progressInput" type="text" placeholder="Progress, contoh: S1 5/13 atau Ep 7">
+  <div id="statusCurrent" class="status-current"></div>
+</div>
 <div class="review-editor">
   <h4>✍️ Review pribadi</h4>
   <div id="tierPicker" style="margin:16px 0;padding:14px;border:1px solid #352347;border-radius:12px;background:#160f1f;display:none">
@@ -569,6 +592,23 @@ try{
   if(savedHistory) watchHistory=JSON.parse(savedHistory);
 }catch(e){}
 
+const defaultWatchStatuses = {
+  "Completed": ["Bunny Girl Senpai", "Oregairu", "Hyouka"],
+  "Watching": ["Gotoubun no Hanayome"],
+  "Planned": ["Charlotte", "Clannad"],
+  "Dropped": []
+};
+let watchStatusData={};
+try{
+  const savedStatus=localStorage.getItem("ristzWatchStatus");
+  if(savedStatus) watchStatusData=JSON.parse(savedStatus);
+}catch(e){}
+Object.entries(defaultWatchStatuses).forEach(([status,names])=>names.forEach(name=>{
+  if(!watchStatusData[name]) watchStatusData[name]={status:status,progress:status==="Completed"?"Finished":""};
+}));
+function saveWatchStatus(){localStorage.setItem("ristzWatchStatus",JSON.stringify(watchStatusData));}
+function getWatchInfo(name){return watchStatusData[cleanAnimeTitle(name)]||null}
+
 let selectedAnime=null;
 
 function countWatched(name){return rewatchData[name]||1}
@@ -576,7 +616,9 @@ function countWatched(name){return rewatchData[name]||1}
 function makeCard(anime){
   const card=document.createElement("div");
   card.className="anime";
-  card.innerHTML=`<img src="${anime[2]}" loading="lazy" decoding="async" width="500" height="255" alt="${anime[0]}"><h3>${anime[0]}</h3><p class="rating">${anime[1].toFixed(1)}/10</p><p class="watched">Watched ${countWatched(anime[0])}×</p>${hasUserReview(anime[0])?'<p class="reviewed-badge">✍️ Reviewed</p>':''}`;
+  const info=getWatchInfo(anime[0]);
+  const statusBadge=info?`<p class="progress-badge">${info.status}${info.progress?" • "+info.progress:""}</p>`:"";
+  card.innerHTML=`<img src="${anime[2]}" loading="lazy" decoding="async" width="500" height="255" alt="${anime[0]}"><h3>${anime[0]}</h3><p class="rating">${anime[1].toFixed(1)}/10</p><p class="watched">Watched ${countWatched(anime[0])}×</p>${statusBadge}${hasUserReview(anime[0])?'<p class="reviewed-badge">✍️ Reviewed</p>':''}`;
   card.addEventListener("click",()=>openModal(anime));
   return card;
 }
@@ -678,6 +720,7 @@ function openModal(anime){
   document.getElementById("modalWatched").textContent="Watched: "+countWatched(anime[0])+"×";
   document.getElementById("modalDescription").textContent=descriptionMap[anime[0]]||"Belum ada deskripsi.";
   updateTierPicker(anime[0]);
+  updateModalStatus(anime[0]);
   const reviewInput=document.getElementById("reviewInput");
   if(reviewInput) reviewInput.value=getReview(anime[0]);
   const reviewStatus=document.getElementById("reviewStatus");
@@ -686,6 +729,49 @@ function openModal(anime){
 }
 function closeModal(){document.getElementById("modal").classList.remove("show")}
 document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+
+function updateModalStatus(title){
+  const name=cleanAnimeTitle(title);
+  const info=watchStatusData[name]||{};
+  const input=document.getElementById("progressInput");
+  const current=document.getElementById("statusCurrent");
+  if(input) input.value=info.progress||"";
+  if(current) current.textContent=info.status ? "Status sekarang: "+info.status+(info.progress?" • "+info.progress:"") : "Belum ada status.";
+  document.querySelectorAll(".modal-status-btn").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.status===info.status);
+    btn.onclick=function(){setAnimeStatus(name,btn.dataset.status);};
+  });
+}
+function setAnimeStatus(title,status){
+  const name=cleanAnimeTitle(title);
+  const input=document.getElementById("progressInput");
+  const old=watchStatusData[name]||{};
+  watchStatusData[name]={status:status,progress:input?input.value.trim():(old.progress||"")};
+  if(status==="Completed" && !watchStatusData[name].progress) watchStatusData[name].progress="Finished";
+  saveWatchStatus();
+  renderAllStatusViews();
+  updateModalStatus(name);
+}
+function saveProgress(){
+  if(!selectedAnime)return;
+  const name=cleanAnimeTitle(selectedAnime[0]);
+  const input=document.getElementById("progressInput");
+  const old=watchStatusData[name]||{status:"Watching",progress:""};
+  watchStatusData[name]={status:old.status||"Watching",progress:input?input.value.trim():""};
+  saveWatchStatus();
+  renderAllStatusViews();
+  updateModalStatus(name);
+}
+function getStatusGroups(){
+  const groups={Completed:[],Watching:[],Planned:[],Dropped:[]};
+  Object.entries(watchStatusData).forEach(([name,info])=>{if(groups[info.status]) groups[info.status].push([name,info.progress||""]);});
+  return groups;
+}
+function renderAllStatusViews(){
+  const current=document.querySelector(".status-controls .status-btn.active");
+  renderStatus(current?current.dataset.status:"Completed");
+  renderCompleted(); renderFavorites(); renderHall(); renderHistory(); renderProfile();
+}
 
 function saveReview(){
   if(!selectedAnime)return;
@@ -720,14 +806,16 @@ function clearReview(){
 
 function markWatched(){
   if(!selectedAnime)return;
-  const name=selectedAnime[0];
+  const name=cleanAnimeTitle(selectedAnime[0]);
   rewatchData[name]=countWatched(name)+1;
   watchHistory=watchHistory.filter(x=>x!==name);
   watchHistory.unshift(name);
   watchHistory=watchHistory.slice(0,8);
+  watchStatusData[name]={status:"Completed",progress:"Finished"};
   localStorage.setItem("ristzRewatch",JSON.stringify(rewatchData));
   localStorage.setItem("ristzHistory",JSON.stringify(watchHistory));
-  renderCompleted(); renderHistory(); renderHall();
+  saveWatchStatus();
+  renderCompleted(); renderHistory(); renderHall(); renderStatus("Completed"); renderProfile();
   openModal(selectedAnime);
 }
 
@@ -811,6 +899,11 @@ renderMonthAnime();
 renderDistribution();
 renderReviews();
 setupMoods();
+renderProfile();
+refreshWatchStatuses();
+showStatus("Completed");
+const progressInput=document.getElementById("progressInput");
+if(progressInput) progressInput.addEventListener("change",saveProgress);
 </script>
 
 <script>
@@ -891,6 +984,21 @@ const moodChoices = {
     "Mystery": ["Hyouka", "Bunny Girl Senpai"]
 };
 
+function renderProfile(){
+    const el=document.getElementById("profile-stats");
+    if(!el || typeof animeData==="undefined") return;
+    const total=animeData.length;
+    const avg=total?(animeData.reduce((sum,a)=>sum+Number(a[1]),0)/total).toFixed(1):"0.0";
+    const completed=Object.values(watchStatusData).filter(x=>x.status==="Completed").length;
+    const watching=Object.values(watchStatusData).filter(x=>x.status==="Watching").length;
+    const rewatched=Object.values(rewatchData).filter(x=>Number(x)>1).length;
+    el.innerHTML=`
+      <div class="profile-stat"><b>${total}</b><span>ANIME</span></div>
+      <div class="profile-stat"><b>${avg}</b><span>AVG RATING</span></div>
+      <div class="profile-stat"><b>${completed}</b><span>COMPLETED</span></div>
+      <div class="profile-stat"><b>${rewatched}</b><span>REWATCHED</span></div>`;
+}
+
 function renderPersonalHub(){
     const fc = document.getElementById("favorite-characters-grid");
     if(fc){
@@ -905,7 +1013,10 @@ function renderPersonalHub(){
 
     const tl = document.getElementById("anime-journey");
     if(tl){
-        tl.innerHTML = animeJourney.map(c => `
+        const journeyItems=animeJourney.map(c=>[c[0],c[1]]);
+        const totalNow=typeof animeData!=="undefined"?animeData.length:0;
+        journeyItems.push(["NOW",`Ristz Anime terus berkembang jadi arsip pribadi anime, rating, tier, status, dan progress. <div class="journey-stat">${totalNow} anime • ${Object.keys(userReviews).length} review lokal • ${Object.keys(watchStatusData).length} status tersimpan</div>`]);
+        tl.innerHTML = journeyItems.map(c => `
             <div class="timeline-item">
                 <div class="timeline-year">${c[0]}</div>
                 <div class="timeline-box">${c[1]}</div>
@@ -928,7 +1039,7 @@ function renderPersonalHub(){
             <div class="hub-card"><div class="hub-small">TOTAL ANIME</div><div class="hub-value">${total}</div></div>
             <div class="hub-card"><div class="hub-small">10/10</div><div class="hub-value">${typeof animeData!=="undefined" ? animeData.filter(a=>Number(a[1])===10).length : 0}</div></div>
             <div class="hub-card"><div class="hub-small">FAVORITE CHARACTERS</div><div class="hub-value">${favoriteCharacters.length}</div></div>
-            <div class="hub-card"><div class="hub-small">MY REVIEWS</div><div class="hub-value">${Object.keys(localStorage).filter(k=>k.toLowerCase().includes("review")).length}</div></div>
+            <div class="hub-card"><div class="hub-small">MY REVIEWS</div><div class="hub-value">${Object.keys(userReviews).length}</div></div>
         `;
     }
 
@@ -944,7 +1055,7 @@ function showMood(mood){
     target.innerHTML = `<div class="mood-pick">${mood}</div><div>${moodChoices[mood].join(" • ")}</div>`;
 }
 
-document.addEventListener("DOMContentLoaded", renderPersonalHub);
+document.addEventListener("DOMContentLoaded", ()=>{renderPersonalHub();renderProfile();});
 </script>
 
 <script>
@@ -968,51 +1079,23 @@ const animeTiers = {
     "D": []
 };
 
-const watchStatuses = {
-    "Completed": ["Bunny Girl Senpai", "Oregairu", "Hyouka"],
-    "Watching": ["Gotoubun no Hanayome"],
-    "Planned": ["Charlotte", "Clannad"],
-    "Dropped": []
-};
-
-function renderV8(){
-    const awards = document.getElementById("anime-awards-grid");
-    if(awards) awards.innerHTML = animeAwards.map(a => `
-        <div class="award-card">
-            <div class="award-badge">🏆</div>
-            <h4>${a[0]}</h4>
-            <strong>${a[1]}</strong>
-            <p class="hub-small">${a[2]}</p>
-        </div>`).join("");
-
-    const tiers = document.getElementById("anime-tier-list");
-    if(tiers) tiers.innerHTML = Object.entries(animeTiers).map(([tier,items]) => `
-        <div class="tier-row">
-            <div class="tier-label">${tier}</div>
-            <div class="tier-items">
-                ${items.length ? items.map(x=>`<div class="tier-item">${x}</div>`).join("") : '<div class="tier-item">Belum diisi</div>'}
-            </div>
-        </div>`).join("");
-
-    renderStatus("Completed");
-
-    const selects = document.querySelectorAll(".compare-select");
-    if(selects.length && typeof animeData !== "undefined"){
-        const options = animeData.map(a=>`<option>${a[0].replace(/<[^>]*>/g,"").trim()}</option>`).join("");
-        selects.forEach(s=>s.innerHTML=options);
-        if(selects[0]) selects[0].selectedIndex=0;
-        if(selects[1]) selects[1].selectedIndex=Math.min(1, animeData.length-1);
-        updateCompare();
-    }
+const watchStatuses = {};
+function refreshWatchStatuses(){
+  Object.keys(watchStatuses).forEach(k=>delete watchStatuses[k]);
+  const groups=getStatusGroups();
+  Object.assign(watchStatuses,groups);
 }
 function renderStatus(status){
+    refreshWatchStatuses();
     const target=document.getElementById("status-list");
     if(!target) return;
     const arr=watchStatuses[status]||[];
-    target.innerHTML=arr.length ? arr.map(x=>`<div class="status-item"><span>${x}</span><span>${status}</span></div>`).join("") :
-        `<div class="status-item"><span>Belum ada anime</span><span>${status}</span></div>`;
+    target.innerHTML=arr.length ? arr.map(([name,progress])=>`<div class="status-item"><span>${name}${progress?`<small style="display:block;color:#9f96aa;margin-top:3px">${progress}</small>`:""}</span><span>${status}</span></div>`).join("") : `<div class="status-item"><span>Belum ada anime</span><span>${status}</span></div>`;
 }
-function showStatus(status){ renderStatus(status); }
+function showStatus(status){
+  document.querySelectorAll(".status-btn").forEach(btn=>btn.classList.toggle("active",btn.textContent.trim()===status));
+  renderStatus(status);
+}
 
 function findAnime(name){
     if(typeof animeData==="undefined") return null;
@@ -1029,8 +1112,8 @@ function updateCompare(){
         cards[i].innerHTML=`
             <h4>${a[0]}</h4>
             <div class="compare-stat"><span>Rating</span><strong>★ ${Number(a[1]).toFixed(1)}</strong></div>
-            <div class="compare-stat"><span>Genre</span><span>${a[3]||"-"}</span></div>
-            <div class="compare-stat"><span>Rewatch</span><span>${typeof rewatchCounts!=="undefined" ? (rewatchCounts[name]||0) : 0}×</span></div>`;
+            <div class="compare-stat"><span>Genre</span><span>${genreOf(a)}</span></div>
+            <div class="compare-stat"><span>Rewatch</span><span>${countWatched(name)-1}×</span></div>`;
     });
 }
 document.addEventListener("DOMContentLoaded",renderV8);
