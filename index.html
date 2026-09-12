@@ -1093,7 +1093,7 @@ function renderStatus(status){
     target.innerHTML=arr.length ? arr.map(([name,progress])=>`<div class="status-item"><span>${name}${progress?`<small style="display:block;color:#9f96aa;margin-top:3px">${progress}</small>`:""}</span><span>${status}</span></div>`).join("") : `<div class="status-item"><span>Belum ada anime</span><span>${status}</span></div>`;
 }
 function showStatus(status){
-  document.querySelectorAll(".status-btn").forEach(btn=>btn.classList.toggle("active",btn.textContent.trim()===status));
+  document.querySelectorAll(".status-btn").forEach(btn=>btn.classList.toggle("active",btn.dataset.status===status));
   renderStatus(status);
 }
 
@@ -1116,7 +1116,15 @@ function updateCompare(){
             <div class="compare-stat"><span>Rewatch</span><span>${countWatched(name)-1}×</span></div>`;
     });
 }
-document.addEventListener("DOMContentLoaded",renderV8);
+function renderAwards(){
+  const el=document.getElementById("anime-awards-grid");
+  if(!el) return;
+  el.innerHTML=animeAwards.map(function(a){
+    return '<div class="award-card"><div class="award-badge">🏆</div><h4>'+a[0]+'</h4><div style="color:#b98cff;font-weight:700;margin-bottom:6px">'+a[1]+'</div><div style="opacity:.75;font-size:13px;line-height:1.5">'+a[2]+'</div></div>';
+  }).join("");
+}
+
+renderAwards();
 </script>
 
 <script>
@@ -1168,7 +1176,11 @@ window.RistzPublicReview = {
 
 <script>
 const ristzTierStorageKey = "ristzAnimeTiers";
-let ristzTiers = JSON.parse(localStorage.getItem(ristzTierStorageKey) || "{}");
+let ristzTiers = {};
+try{
+  const savedTiers=localStorage.getItem(ristzTierStorageKey);
+  if(savedTiers) ristzTiers=JSON.parse(savedTiers) || {};
+}catch(e){ ristzTiers={}; }
 function saveRistzTiers(){ localStorage.setItem(ristzTierStorageKey, JSON.stringify(ristzTiers)); }
 function setAnimeTier(title,tier){
   title=cleanAnimeTitle(title);
