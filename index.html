@@ -140,6 +140,32 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 .review-status{font-size:12px;color:#9f96aa;margin-top:7px}
 .reviewed-badge{font-size:11px;color:#b98cff;margin-top:3px}
 </style>
+
+<style>
+.personal-hub{margin-top:42px}
+.personal-hub .hub-note{opacity:.7;margin:-6px 0 20px}
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.hub-card{background:linear-gradient(145deg,rgba(80,35,120,.32),rgba(20,12,35,.9));border:1px solid rgba(170,120,255,.22);border-radius:16px;padding:18px}
+.hub-card h3{margin:0 0 8px}
+.hub-value{font-size:1.8rem;font-weight:800;margin:8px 0}
+.hub-small{opacity:.7;font-size:.88rem}
+.timeline{display:grid;gap:14px;margin-top:12px}
+.timeline-item{display:grid;grid-template-columns:95px 1fr;gap:14px;align-items:start}
+.timeline-year{font-weight:800;opacity:.8}
+.timeline-box{border-left:2px solid rgba(170,120,255,.4);padding-left:14px}
+.favorite-chars{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.char-mini{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px}
+.char-mini img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px}
+.char-mini h4{margin:9px 0 3px}
+.char-mini p{margin:0;opacity:.7;font-size:.85rem}
+.recent-list{display:grid;gap:10px}
+.recent-item{display:flex;justify-content:space-between;gap:12px;padding:12px;border-radius:12px;background:rgba(255,255,255,.035)}
+.recent-item span:last-child{opacity:.65;white-space:nowrap}
+.mood-buttons{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.mood-btn{border:1px solid rgba(170,120,255,.3);background:rgba(255,255,255,.04);color:inherit;border-radius:999px;padding:8px 12px;cursor:pointer}
+.mood-result{margin-top:12px}
+.mood-result .mood-pick{font-weight:800}
+</style>
 </head>
 <body>
 <header>
@@ -197,6 +223,26 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
     <h3 class="character-section-title">BEST HEROINE</h3>
     <div id="best-heroine-grid" class="character-grid"></div>
 </section>
+<section id="personal-hub" class="personal-hub">
+    <h2>MY ANIME HUB</h2>
+    <p class="hub-note">Kumpulan bagian paling personal dari Ristz Anime.</p>
+
+    <div id="hub-stats" class="hub-grid"></div>
+
+    <h3 class="character-section-title">FAVORITE CHARACTERS</h3>
+    <div id="favorite-characters-grid" class="favorite-chars"></div>
+
+    <h3 class="character-section-title">MY ANIME JOURNEY</h3>
+    <div id="anime-journey" class="timeline"></div>
+
+    <h3 class="character-section-title">MOOD SELECTOR</h3>
+    <div id="mood-buttons" class="mood-buttons"></div>
+    <div id="mood-result" class="mood-result"></div>
+
+    <h3 class="character-section-title">RECENTLY ADDED / WATCHED</h3>
+    <div id="recent-anime-list" class="recent-list"></div>
+</section>
+
 
 <section class="container" id="completed">
 <div class="section-title"><h2>COMPLETED ANIME</h2><span>FILTER & SEARCH</span></div>
@@ -714,6 +760,100 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCharacterRanking(bestMC, "best-mc-grid");
     renderCharacterRanking(bestHeroine, "best-heroine-grid");
 });
+</script>
+
+<script>
+/* =========================
+   MY PERSONAL HUB
+   Semua data di bawah sengaja manual.
+   Tinggal edit/reorder kalau mau.
+   ========================= */
+
+const favoriteCharacters = [
+    ["Mai Sakurajima", "Bunny Girl Senpai", "mai.jfif"],
+    ["Asanagi Umi", "I Made Friends with the Second Prettiest Girl in My Class", "umi.jfif"],
+    ["Hori Kyouko", "Horimiya", "hori.jfif"],
+    ["Chitanda Eru", "Hyouka", "chitanda.jfif"],
+    ["Ichika Nakano", "Gotoubun no Hanayome", "ichika.jfif"]
+];
+
+const animeJourney = [
+    ["START", "Mulai ngumpulin dan nonton anime lebih serius."],
+    ["ROMANCE", "Mulai banyak masuk ke anime romance dan school setting."],
+    ["BGS", "Bunny Girl Senpai jadi salah satu titik penting dalam perjalanan anime."],
+    ["HYOUKA", "Mulai makin suka atmosphere, mystery ringan, dan perkembangan karakter."],
+    ["OREGAIRU", "Makin cocok dengan MC yang berkembang dulu sebelum romance."],
+    ["NOW", "Koleksi terus bertambah dan mulai dibuat jadi Ristz Anime."]
+];
+
+const recentAnime = [
+    ["Alya Sometimes Hides Her Feelings in Russian", "Recently Added"],
+    ["The Fragrant Flower Blooms with Dignity", "Recently Watched"],
+    ["Bunny Girl Senpai", "Rewatch"]
+];
+
+const moodChoices = {
+    "Chill": ["Hyouka", "Horimiya"],
+    "Romance": ["Bunny Girl Senpai", "I Made Friends with the Second Prettiest Girl in My Class"],
+    "Emotional": ["Bunny Girl Senpai", "Oregairu"],
+    "Comedy": ["Pseudo Harem", "Gotoubun no Hanayome"],
+    "Mystery": ["Hyouka", "Bunny Girl Senpai"]
+};
+
+function renderPersonalHub(){
+    const fc = document.getElementById("favorite-characters-grid");
+    if(fc){
+        fc.innerHTML = favoriteCharacters.map(c => `
+            <div class="char-mini">
+                <img src="${c[2]}" alt="${c[0]}" loading="lazy" decoding="async">
+                <h4>${c[0]}</h4>
+                <p>${c[1]}</p>
+            </div>
+        `).join("");
+    }
+
+    const tl = document.getElementById("anime-journey");
+    if(tl){
+        tl.innerHTML = animeJourney.map(c => `
+            <div class="timeline-item">
+                <div class="timeline-year">${c[0]}</div>
+                <div class="timeline-box">${c[1]}</div>
+            </div>
+        `).join("");
+    }
+
+    const rl = document.getElementById("recent-anime-list");
+    if(rl){
+        rl.innerHTML = recentAnime.map(c => `
+            <div class="recent-item"><span>${c[0]}</span><span>${c[1]}</span></div>
+        `).join("");
+    }
+
+    const stats = document.getElementById("hub-stats");
+    if(stats){
+        let total = 0;
+        try { total = Array.isArray(animeData) ? animeData.length : 0; } catch(e) {}
+        stats.innerHTML = `
+            <div class="hub-card"><div class="hub-small">TOTAL ANIME</div><div class="hub-value">${total}</div></div>
+            <div class="hub-card"><div class="hub-small">10/10</div><div class="hub-value">${typeof animeData!=="undefined" ? animeData.filter(a=>Number(a[1])===10).length : 0}</div></div>
+            <div class="hub-card"><div class="hub-small">FAVORITE CHARACTERS</div><div class="hub-value">${favoriteCharacters.length}</div></div>
+            <div class="hub-card"><div class="hub-small">MY REVIEWS</div><div class="hub-value">${Object.keys(localStorage).filter(k=>k.toLowerCase().includes("review")).length}</div></div>
+        `;
+    }
+
+    const mb = document.getElementById("mood-buttons");
+    if(mb){
+        mb.innerHTML = Object.keys(moodChoices).map(m => `<button class="mood-btn" onclick="showMood('${m}')">${m}</button>`).join("");
+    }
+}
+
+function showMood(mood){
+    const target = document.getElementById("mood-result");
+    if(!target) return;
+    target.innerHTML = `<div class="mood-pick">${mood}</div><div>${moodChoices[mood].join(" • ")}</div>`;
+}
+
+document.addEventListener("DOMContentLoaded", renderPersonalHub);
 </script>
 </body>
 </html>
