@@ -129,6 +129,17 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 <style>
 .completed-pagination{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:22px 0 4px}.completed-pagination button{border:1px solid rgba(170,120,255,.3);background:#171020;color:inherit;border-radius:9px;padding:8px 12px;cursor:pointer;font-weight:700}.completed-pagination button:hover{background:rgba(130,80,190,.25)}.completed-pagination button.active{background:rgba(130,80,190,.45);border-color:rgba(190,140,255,.65)}.completed-pagination button:disabled{opacity:.4;cursor:not-allowed}.page-info{opacity:.75;font-size:.9rem;margin:0 8px}
 </style>
+
+<style>
+.review-editor{margin-top:14px;text-align:left;background:#1a1225;border:1px solid #39264d;border-radius:10px;padding:12px}
+.review-editor h4{margin:0 0 9px;color:#b98cff}
+.review-editor textarea{width:100%;min-height:105px;box-sizing:border-box;resize:vertical;background:#120c19;color:#eee;border:1px solid #52377a;border-radius:8px;padding:10px;font:inherit;outline:none}
+.review-editor textarea:focus{border-color:#b98cff}
+.review-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.review-actions button{margin:0}
+.review-status{font-size:12px;color:#9f96aa;margin-top:7px}
+.reviewed-badge{font-size:11px;color:#b98cff;margin-top:3px}
+</style>
 </head>
 <body>
 <header>
@@ -231,6 +242,15 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 <p id="modalWatched"></p>
 <p id="modalDescription" class="description"></p>
 <button onclick="markWatched()">✓ Selesai ditonton lagi</button>
+<div class="review-editor">
+  <h4>✍️ Review pribadi</h4>
+  <textarea id="reviewInput" placeholder="Tulis review lu tentang anime ini..."></textarea>
+  <div class="review-actions">
+    <button onclick="saveReview()">Simpan Review</button>
+    <button onclick="clearReview()">Hapus Review</button>
+  </div>
+  <div id="reviewStatus" class="review-status"></div>
+</div>
 <button onclick="closeModal()">Tutup</button>
 </div>
 </div>
@@ -370,6 +390,20 @@ const reviewMap={
 "Tokyo Ghoul":"Atmosfer gelap dan perjalanan Kaneki jadi daya tarik utamanya."
 };
 
+let userReviews={};
+try{
+  const savedReviews=localStorage.getItem("ristzReviews");
+  if(savedReviews) userReviews=JSON.parse(savedReviews);
+}catch(e){}
+
+function getReview(name){
+  return Object.prototype.hasOwnProperty.call(userReviews,name) ? userReviews[name] : (reviewMap[name]||"");
+}
+
+function hasUserReview(name){
+  return Object.prototype.hasOwnProperty.call(userReviews,name) && userReviews[name].trim()!=="";
+}
+
 const genreMap={"**Alya Sometimes Hides Her Feelings in Russian**  ":"Romance",
 "Bunny Girl Senpai":"Romance","I Made Friends with the Second Prettiest Girl in My Class":"Romance","Horimiya":"Romance","Oregairu":"Romance","Hyouka":"Mystery",
 "Bleach":"Action","Haikyuu!!":"Sports","JoJo's Bizarre Adventure: Stardust Crusaders":"Action","Attack on Titan":"Action","Tokyo Ghoul":"Horror","Love Unseen Beneath the Clear Night Sky":"Romance","Gotoubun no Hanayome":"Romance","Kamisama ni Natta Hi":"Drama",
@@ -406,7 +440,7 @@ function countWatched(name){return rewatchData[name]||1}
 function makeCard(anime){
   const card=document.createElement("div");
   card.className="anime";
-  card.innerHTML=`<img src="${anime[2]}" loading="lazy" decoding="async" width="500" height="255" alt="${anime[0]}"><h3>${anime[0]}</h3><p class="rating">${anime[1].toFixed(1)}/10</p><p class="watched">Watched ${countWatched(anime[0])}×</p>`;
+  card.innerHTML=`<img src="${anime[2]}" loading="lazy" decoding="async" width="500" height="255" alt="${anime[0]}"><h3>${anime[0]}</h3><p class="rating">${anime[1].toFixed(1)}/10</p><p class="watched">Watched ${countWatched(anime[0])}×</p>${hasUserReview(anime[0])?'<p class="reviewed-badge">✍️ Reviewed</p>':''}`;
   card.addEventListener("click",()=>openModal(anime));
   return card;
 }
@@ -507,10 +541,45 @@ function openModal(anime){
   document.getElementById("modalGenre").textContent="Genre: "+genreOf(anime);
   document.getElementById("modalWatched").textContent="Watched: "+countWatched(anime[0])+"×";
   document.getElementById("modalDescription").textContent=descriptionMap[anime[0]]||"Belum ada deskripsi.";
+  const reviewInput=document.getElementById("reviewInput");
+  if(reviewInput) reviewInput.value=getReview(anime[0]);
+  const reviewStatus=document.getElementById("reviewStatus");
+  if(reviewStatus) reviewStatus.textContent=hasUserReview(anime[0])?"Review tersimpan di browser ini.":(reviewMap[anime[0]]?"Ada review bawaan. Bisa lu edit lalu simpan.":"Belum ada review pribadi.");
   document.getElementById("modal").classList.add("show");
 }
 function closeModal(){document.getElementById("modal").classList.remove("show")}
 document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+
+function saveReview(){
+  if(!selectedAnime)return;
+  const input=document.getElementById("reviewInput");
+  const text=input.value.trim();
+  const name=selectedAnime[0];
+  if(!text){
+    delete userReviews[name];
+  }else{
+    userReviews[name]=text;
+  }
+  localStorage.setItem("ristzReviews",JSON.stringify(userReviews));
+  renderReviews();
+  renderCompleted();
+  renderFavorites();
+  renderHall();
+  renderHistory();
+  openModal(selectedAnime);
+}
+
+function clearReview(){
+  if(!selectedAnime)return;
+  delete userReviews[selectedAnime[0]];
+  localStorage.setItem("ristzReviews",JSON.stringify(userReviews));
+  renderReviews();
+  renderCompleted();
+  renderFavorites();
+  renderHall();
+  renderHistory();
+  openModal(selectedAnime);
+}
 
 function markWatched(){
   if(!selectedAnime)return;
@@ -554,7 +623,21 @@ function renderDistribution(){
 
 function renderReviews(){
   const list=document.getElementById("reviewList"); list.innerHTML="";
-  animeData.slice(0,10).forEach(a=>{const card=document.createElement("div");card.className="review-card";card.innerHTML=`<h4>${a[0]}</h4><p class="rating">${a[1].toFixed(1)}/10</p><p>${reviewMap[a[0]]||"Belum ada review pribadi."}</p>`;card.addEventListener("click",()=>openModal(a));list.appendChild(card);});
+  const reviewed=animeData.filter(a=>getReview(a[0]));
+  if(!reviewed.length){
+    list.innerHTML='<p style="color:#9f96aa;font-size:13px">Belum ada review. Buka anime mana pun lalu tulis review pribadi lu.</p>';
+    return;
+  }
+  reviewed.forEach(a=>{
+    const card=document.createElement("div");
+    card.className="review-card";
+    const title=document.createElement("h4"); title.textContent=a[0];
+    const rating=document.createElement("p"); rating.className="rating"; rating.textContent=a[1].toFixed(1)+"/10";
+    const text=document.createElement("p"); text.textContent=getReview(a[0]);
+    card.append(title,rating,text);
+    card.addEventListener("click",()=>openModal(a));
+    list.appendChild(card);
+  });
 }
 
 function setupMoods(){
