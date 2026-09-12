@@ -1082,5 +1082,43 @@ window.RistzPublicReview = {
     render: buildOwnerReviewHTML
 };
 </script>
-\n<script>\nconst ristzTierStorageKey = "ristzAnimeTiers";\nlet ristzTiers = JSON.parse(localStorage.getItem(ristzTierStorageKey) || "{}");\nfunction saveRistzTiers(){ localStorage.setItem(ristzTierStorageKey, JSON.stringify(ristzTiers)); }\nfunction setAnimeTier(title,tier){\n  title=cleanAnimeTitle(title);\n  if(tier === "clear") delete ristzTiers[title];\n  else ristzTiers[title]=tier;\n  saveRistzTiers();\n  updateTierPicker(title);\n  renderMyTierList();\n}\nfunction updateTierPicker(title){\n  const box=document.getElementById("tierPicker"), current=document.getElementById("currentTier");\n  if(!box) return;\n  box.style.display="block";\n  const tier=ristzTiers[cleanAnimeTitle(title)];\n  current.textContent=tier ? "Tier sekarang: "+tier : "Belum diberi tier";\n  document.querySelectorAll(".tier-choice").forEach(b=>b.classList.toggle("active",b.dataset.tier===tier));\n  document.querySelectorAll(".tier-choice").forEach(b=>b.onclick=()=>setAnimeTier(title,b.dataset.tier));\n}\nfunction renderMyTierList(){\n  const el=document.getElementById("anime-tier-list"); if(!el) return;\n  el.innerHTML=["S","A","B","C","D"].map(t=>{\n    const names=Object.keys(ristzTiers).filter(n=>ristzTiers[n]===t);\n    return `<div class="tier-row"><div class="tier-label">${t}</div><div class="tier-anime">${names.length?names.map(n=>`<span class="tier-chip">${n}</span>`).join(""):"<span style="opacity:.5">Kosong</span>"}</div></div>`;\n  }).join("");\n}\ndocument.addEventListener("DOMContentLoaded",renderMyTierList);\n</script>\n</body>
+
+<script>
+const ristzTierStorageKey = "ristzAnimeTiers";
+let ristzTiers = JSON.parse(localStorage.getItem(ristzTierStorageKey) || "{}");
+function saveRistzTiers(){ localStorage.setItem(ristzTierStorageKey, JSON.stringify(ristzTiers)); }
+function setAnimeTier(title,tier){
+  title=cleanAnimeTitle(title);
+  if(tier === "clear") delete ristzTiers[title];
+  else ristzTiers[title]=tier;
+  saveRistzTiers();
+  updateTierPicker(title);
+  renderMyTierList();
+}
+function updateTierPicker(title){
+  const box=document.getElementById("tierPicker");
+  const current=document.getElementById("currentTier");
+  if(!box) return;
+  box.style.display="block";
+  const tier=ristzTiers[cleanAnimeTitle(title)];
+  if(current) current.textContent=tier ? "Tier sekarang: "+tier : "Belum diberi tier";
+  document.querySelectorAll(".tier-choice").forEach(function(b){
+    b.classList.toggle("active", b.dataset.tier===tier);
+    b.onclick=function(){ setAnimeTier(title,b.dataset.tier); };
+  });
+}
+function renderMyTierList(){
+  const el=document.getElementById("anime-tier-list");
+  if(!el) return;
+  el.innerHTML=["S","A","B","C","D"].map(function(t){
+    const names=Object.keys(ristzTiers).filter(function(n){ return ristzTiers[n]===t; });
+    const content=names.length ? names.map(function(n){
+      return '<span class="tier-chip">'+n+'</span>';
+    }).join("") : '<span style="opacity:.5">Kosong</span>';
+    return '<div class="tier-row"><div class="tier-label">'+t+'</div><div class="tier-anime">'+content+'</div></div>';
+  }).join("");
+}
+document.addEventListener("DOMContentLoaded",renderMyTierList);
+</script>
+</body>
 </html>
