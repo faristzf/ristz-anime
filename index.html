@@ -607,7 +607,7 @@ Object.entries(defaultWatchStatuses).forEach(([status,names])=>names.forEach(nam
   if(!watchStatusData[name]) watchStatusData[name]={status:status,progress:status==="Completed"?"Finished":""};
 }));
 function saveWatchStatus(){localStorage.setItem("ristzWatchStatus",JSON.stringify(watchStatusData));}
-function getWatchInfo(name){return watchStatusData[cleanAnimeTitle(name)]||null}
+function getWatchInfo(name){const key=String(name).replace(/<[^>]*>/g,"").trim(); return watchStatusData[key]||null}
 
 let selectedAnime=null;
 
@@ -899,9 +899,6 @@ renderMonthAnime();
 renderDistribution();
 renderReviews();
 setupMoods();
-renderProfile();
-refreshWatchStatuses();
-showStatus("Completed");
 const progressInput=document.getElementById("progressInput");
 if(progressInput) progressInput.addEventListener("change",saveProgress);
 </script>
@@ -1216,4 +1213,15 @@ function renderMyTierList(){
 document.addEventListener("DOMContentLoaded",renderMyTierList);
 </script>
 </body>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  try{
+    if(typeof renderProfile === "function") renderProfile();
+    if(typeof refreshWatchStatuses === "function") refreshWatchStatuses();
+    if(typeof showStatus === "function") showStatus("Completed");
+    if(typeof renderAwards === "function") renderAwards();
+  }catch(e){ console.error("Ristz init error:", e); }
+});
+</script>
 </html>
