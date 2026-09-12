@@ -214,6 +214,39 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 <style id="ristz-extra-v12-css">
 .r12-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.r12-card{background:#171020;border:1px solid #352347;border-radius:14px;padding:16px}.r12-card h3{margin-top:0;color:#c9a8ff}.r12-muted{color:#9f96aa;font-size:13px}.r12-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.r12-btn{border:1px solid #5b3a7e;background:#241633;color:#fff;border-radius:9px;padding:8px 11px;cursor:pointer}.r12-btn:hover{background:#35204d}.r12-btn.active{background:#7c4dbe;border-color:#a678e8}.r12-input,.r12-select,.r12-textarea{width:100%;background:#0f0a15;color:#fff;border:1px solid #49315e;border-radius:9px;padding:9px;margin-top:7px}.r12-textarea{min-height:80px;resize:vertical}.r12-profile{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center}.r12-avatar{width:110px;height:110px;border-radius:20px;background:linear-gradient(135deg,#8b5cf6,#21112f);display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:800;color:#fff}.r12-statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.r12-stat{background:#100b16;border-radius:10px;padding:10px;text-align:center}.r12-stat b{display:block;font-size:20px;color:#c9a8ff}.r12-list{margin:8px 0 0;padding-left:18px}.r12-chip{display:inline-block;border:1px solid #49315e;background:#21152b;border-radius:999px;padding:5px 9px;margin:3px;font-size:12px}.r12-ach{display:flex;gap:9px;align-items:center;border:1px solid #352347;border-radius:10px;padding:10px;margin:7px 0}.r12-ach.locked{opacity:.45}.r12-ach-icon{font-size:22px;width:28px}.r12-rating{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}.r12-rating button{min-width:42px}.r12-compare-result{margin-top:12px}.r12-timeline{border-left:2px solid #5b3a7e;padding-left:16px}.r12-timeline-item{margin:0 0 14px;position:relative}.r12-timeline-item:before{content:"";position:absolute;left:-23px;top:5px;width:9px;height:9px;border-radius:50%;background:#9b6be5}.r12-fav{font-size:13px;color:#d7baff}.r12-modal-tools{margin:16px 0;padding:14px;border:1px solid #352347;border-radius:12px;background:#160f1f}.r12-modal-tools h4{margin:0 0 9px}.r12-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:600px){.r12-profile{grid-template-columns:1fr}.r12-avatar{width:80px;height:80px;font-size:28px}.r12-two{grid-template-columns:1fr}.r12-statgrid{grid-template-columns:1fr 1fr}}
 </style>
+
+<style id="ristz-ui-polish">
+:root{--bg:#0d0915;--panel:#171021;--panel2:#21162e;--line:#342343;--purple:#9b6cff;--purple2:#c2a0ff;--muted:#9d92aa}
+html{background:var(--bg)}
+body{background:radial-gradient(circle at 50% -10%,#25163b 0,#0d0915 38%,#0d0915 100%);color:#f7f3ff;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background-image:radial-gradient(rgba(255,255,255,.22) .7px,transparent .7px);background-size:28px 28px;mask-image:linear-gradient(to bottom,#000,transparent 75%);z-index:-1}
+header{padding:13px 18px;background:rgba(14,9,23,.82);border-bottom:1px solid rgba(155,108,255,.38);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+header h1{font-size:27px;letter-spacing:4px;text-shadow:0 0 22px rgba(155,108,255,.35);margin:0 0 11px}
+nav{gap:7px}
+nav a{font-weight:700;letter-spacing:.6px;padding:8px 13px;border-radius:10px;color:#c9bfd5}
+nav a:hover{color:#fff;background:rgba(155,108,255,.1)}
+nav a.main-tab-active{background:linear-gradient(135deg,#7040b5,#8b5cf6);border-color:#bda0ff;box-shadow:0 5px 18px rgba(139,92,246,.24)}
+.view-intro{padding:28px 25px 2px;max-width:1250px}.view-intro h2{font-size:26px;letter-spacing:1px}.view-intro p{color:#8f849e}
+.hero{min-height:360px;padding:55px 20px;background:radial-gradient(circle at 50% 25%,rgba(123,75,174,.34),transparent 34%),linear-gradient(180deg,rgba(31,19,48,.5),transparent)}
+.hero h2{font-size:clamp(38px,7vw,66px);letter-spacing:2px;text-shadow:0 0 35px rgba(155,108,255,.28)}
+.hero p{color:#bbb0c8}.hero .tag{color:#887a98}
+.container{padding:38px 25px}.section-title{margin-bottom:18px}.section-title h2{font-size:24px;letter-spacing:.5px}.section-title span{font-size:11px;letter-spacing:1px;background:#181021;border:1px solid var(--line);padding:5px 9px;border-radius:999px}
+.anime-list{gap:16px}.anime{background:linear-gradient(160deg,rgba(35,24,49,.98),rgba(22,15,32,.98));border-color:#32213f;border-radius:14px;padding:10px;box-shadow:0 7px 20px rgba(0,0,0,.14)}
+.anime:hover{transform:translateY(-5px) scale(1.01);border-color:#8e63cf;box-shadow:0 14px 30px rgba(111,66,193,.2)}
+.anime img{height:250px;border-radius:10px}.anime h3{font-weight:700}.rating{font-size:13px}.watched{color:#81768d}
+.stats{gap:12px}.stat,.feature-box,.about-box{background:rgba(25,17,35,.86);border-color:#342343;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.stat{border-radius:14px}.stat b{font-size:27px;text-shadow:0 0 15px rgba(155,108,255,.2)}
+.tools{gap:8px}.tools input,.tools select,.tools button{background:#171020;border-color:#3c2a4d;border-radius:10px}.tools input::placeholder{color:#756a80}.tools button:hover{background:#241633}
+.feature-grid{gap:14px}.feature-box{border-radius:15px;padding:19px}.feature-box h3{font-size:14px;letter-spacing:.3px}
+.rank-row,.review-card,.tier-row{background:#181020;border-color:#342343}.rank-row:hover,.review-card:hover{border-color:#7650a8;background:#1d1327}
+hr{border-top-color:#2a1d38}
+.modal{backdrop-filter:blur(7px);background:rgba(3,2,6,.78)}.modal-box{background:linear-gradient(160deg,#241833,#171020);border-color:#68478c;box-shadow:0 22px 70px rgba(0,0,0,.65)}
+.modal-box h2{margin-top:12px}.modal-box .description{background:#130d1b;border-color:#342343}
+#musicPlayer{background:rgba(19,12,29,.9)!important;border-color:#68478c!important;box-shadow:0 12px 35px rgba(0,0,0,.45)!important}
+.back-top{background:#181020;border-color:#4a3560;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+footer{background:#120c1b;border-top:1px solid #2b1e39}
+@media(max-width:600px){header{padding:11px 8px}header h1{font-size:21px;letter-spacing:3px}.view-intro{padding:22px 13px 0}.view-intro h2{font-size:22px}.hero{min-height:290px;padding:40px 16px}.hero h2{font-size:35px}.container{padding:28px 12px}.section-title h2{font-size:19px}.section-title span{font-size:9px}.anime-list{gap:10px}.anime{padding:7px}.anime img{height:225px}.anime h3{font-size:12.5px;margin-top:9px}.tools{margin-bottom:18px}.tools input,.tools select,.tools button{font-size:13px}.feature-box{padding:15px}.modal{padding:10px}.modal-box{padding:17px;border-radius:14px}}
+</style>
 </head>
 
 <style id="ristz-music-style">
