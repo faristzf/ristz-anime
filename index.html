@@ -166,6 +166,28 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
 .mood-result{margin-top:12px}
 .mood-result .mood-pick{font-weight:800}
 </style>
+
+<style>
+/* ===== V8 PERSONAL FEATURES ===== */
+.awards-grid,.tier-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.award-card,.tier-card,.status-card,.compare-card{background:linear-gradient(145deg,rgba(80,35,120,.28),rgba(20,12,35,.9));border:1px solid rgba(170,120,255,.22);border-radius:16px;padding:16px}
+.award-card h4,.tier-card h4,.status-card h4{margin:0 0 6px}
+.award-badge{font-size:1.6rem;margin-bottom:8px}
+.tier-row{display:grid;grid-template-columns:70px 1fr;gap:12px;align-items:stretch;margin-bottom:10px}
+.tier-label{display:grid;place-items:center;border-radius:12px;font-weight:900;background:rgba(255,255,255,.07)}
+.tier-items{display:flex;flex-wrap:wrap;gap:8px}
+.tier-item{padding:9px 12px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+.status-controls{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px}
+.status-btn,.compare-select{border:1px solid rgba(170,120,255,.3);background:rgba(255,255,255,.04);color:inherit;border-radius:10px;padding:8px 11px;cursor:pointer}
+.status-list{display:grid;gap:9px}
+.status-item{display:flex;justify-content:space-between;gap:12px;padding:11px 13px;border-radius:11px;background:rgba(255,255,255,.035)}
+.compare-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.compare-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.compare-card h4{font-size:1.05rem}
+.compare-stat{display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08);padding:8px 0}
+.compare-stat:last-child{border-bottom:0}
+@media(max-width:650px){.compare-wrap{grid-template-columns:1fr}.tier-row{grid-template-columns:55px 1fr}}
+</style>
 </head>
 <body>
 <header>
@@ -242,6 +264,34 @@ footer{background:#1d142b;text-align:center;padding:25px;margin-top:20px;color:#
     <h3 class="character-section-title">RECENTLY ADDED / WATCHED</h3>
     <div id="recent-anime-list" class="recent-list"></div>
 </section>
+<section id="v8-features" class="personal-hub">
+    <h2>RISTZ ANIME AWARDS</h2>
+    <p class="hub-note">Penghargaan versi pribadi. Semua pemenang bisa diganti manual.</p>
+    <div id="anime-awards-grid" class="awards-grid"></div>
+
+    <h3 class="character-section-title">ANIME TIER LIST</h3>
+    <div id="anime-tier-list"></div>
+
+    <h3 class="character-section-title">WATCH STATUS</h3>
+    <div class="status-controls">
+        <button class="status-btn" onclick="showStatus('Completed')">Completed</button>
+        <button class="status-btn" onclick="showStatus('Watching')">Watching</button>
+        <button class="status-btn" onclick="showStatus('Planned')">Planned</button>
+        <button class="status-btn" onclick="showStatus('Dropped')">Dropped</button>
+    </div>
+    <div id="status-list" class="status-list"></div>
+
+    <h3 class="character-section-title">ANIME COMPARISON</h3>
+    <div class="compare-controls">
+        <select class="compare-select" onchange="updateCompare()"></select>
+        <select class="compare-select" onchange="updateCompare()"></select>
+    </div>
+    <div class="compare-wrap">
+        <div id="compare-a" class="compare-card"></div>
+        <div id="compare-b" class="compare-card"></div>
+    </div>
+</section>
+
 
 
 <section class="container" id="completed">
@@ -854,6 +904,95 @@ function showMood(mood){
 }
 
 document.addEventListener("DOMContentLoaded", renderPersonalHub);
+</script>
+
+<script>
+/* Urutan tier dan pemenang di bawah ini sengaja MANUAL. */
+const animeAwards = [
+    ["BEST ANIME", "Bunny Girl Senpai", "Anime paling lengkap menurut gue."],
+    ["BEST MC", "Sakuta Azusagawa", "Perkembangan karakter dan cara menghadapi masalah."],
+    ["BEST HEROINE", "Mai Sakurajima", "Chemistry dan perkembangan hubungan paling cocok."],
+    ["BEST ROMANCE", "Bunny Girl Senpai", "Romance yang kuat tanpa kehilangan cerita utama."],
+    ["BEST ENDING", "Oregairu", "Penutup perjalanan karakter terasa memuaskan."],
+    ["BEST OST / BGM", "Hyouka", "Atmosphere dan musiknya paling nempel."],
+    ["MOST EMOTIONAL", "Bunny Girl Senpai", "Punya momen emosional yang paling membekas."],
+    ["MOST REWATCHABLE", "Bunny Girl Senpai", "Tetap enak ditonton ulang."]
+];
+
+const animeTiers = {
+    "S": ["Bunny Girl Senpai", "I Made Friends with the Second Prettiest Girl in My Class", "Horimiya"],
+    "A": ["Oregairu", "Hyouka", "The Fragrant Flower Blooms with Dignity"],
+    "B": ["Pseudo Harem", "My Dress-Up Darling"],
+    "C": [],
+    "D": []
+};
+
+const watchStatuses = {
+    "Completed": ["Bunny Girl Senpai", "Oregairu", "Hyouka"],
+    "Watching": ["Gotoubun no Hanayome"],
+    "Planned": ["Charlotte", "Clannad"],
+    "Dropped": []
+};
+
+function renderV8(){
+    const awards = document.getElementById("anime-awards-grid");
+    if(awards) awards.innerHTML = animeAwards.map(a => `
+        <div class="award-card">
+            <div class="award-badge">🏆</div>
+            <h4>${a[0]}</h4>
+            <strong>${a[1]}</strong>
+            <p class="hub-small">${a[2]}</p>
+        </div>`).join("");
+
+    const tiers = document.getElementById("anime-tier-list");
+    if(tiers) tiers.innerHTML = Object.entries(animeTiers).map(([tier,items]) => `
+        <div class="tier-row">
+            <div class="tier-label">${tier}</div>
+            <div class="tier-items">
+                ${items.length ? items.map(x=>`<div class="tier-item">${x}</div>`).join("") : '<div class="tier-item">Belum diisi</div>'}
+            </div>
+        </div>`).join("");
+
+    renderStatus("Completed");
+
+    const selects = document.querySelectorAll(".compare-select");
+    if(selects.length && typeof animeData !== "undefined"){
+        const options = animeData.map(a=>`<option>${a[0].replace(/<[^>]*>/g,"").trim()}</option>`).join("");
+        selects.forEach(s=>s.innerHTML=options);
+        if(selects[0]) selects[0].selectedIndex=0;
+        if(selects[1]) selects[1].selectedIndex=Math.min(1, animeData.length-1);
+        updateCompare();
+    }
+}
+function renderStatus(status){
+    const target=document.getElementById("status-list");
+    if(!target) return;
+    const arr=watchStatuses[status]||[];
+    target.innerHTML=arr.length ? arr.map(x=>`<div class="status-item"><span>${x}</span><span>${status}</span></div>`).join("") :
+        `<div class="status-item"><span>Belum ada anime</span><span>${status}</span></div>`;
+}
+function showStatus(status){ renderStatus(status); }
+
+function findAnime(name){
+    if(typeof animeData==="undefined") return null;
+    return animeData.find(a=>a[0].replace(/<[^>]*>/g,"").trim()===name) || null;
+}
+function updateCompare(){
+    const selects=document.querySelectorAll(".compare-select");
+    if(selects.length<2 || typeof animeData==="undefined") return;
+    const names=[selects[0].value,selects[1].value];
+    const cards=[document.getElementById("compare-a"),document.getElementById("compare-b")];
+    names.forEach((name,i)=>{
+        const a=findAnime(name);
+        if(!a || !cards[i]) return;
+        cards[i].innerHTML=`
+            <h4>${a[0]}</h4>
+            <div class="compare-stat"><span>Rating</span><strong>★ ${Number(a[1]).toFixed(1)}</strong></div>
+            <div class="compare-stat"><span>Genre</span><span>${a[3]||"-"}</span></div>
+            <div class="compare-stat"><span>Rewatch</span><span>${typeof rewatchCounts!=="undefined" ? (rewatchCounts[name]||0) : 0}×</span></div>`;
+    });
+}
+document.addEventListener("DOMContentLoaded",renderV8);
 </script>
 </body>
 </html>
